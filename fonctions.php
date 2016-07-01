@@ -5,7 +5,6 @@ Licence : CC by sa
 */
 
 //SECURITE 
-//contrôle des accès : selon le fichier constantes.php
 //on charge des constantes
 require_once("constantes.php");
 
@@ -56,6 +55,7 @@ function creer_liste_horaire($nom, $min, $max, $val_utilisateur)
 	echo "<option" . marquer_champs("autol", $val_utilisateur)  . ">Au lever du soleil</option>\n";
 	//coucher
 	echo "<option" . marquer_champs("autoc", $val_utilisateur)  . ">Au coucher du soleil</option>\n";
+	//echo "<option" . marquer_champs("autoc-capteur", $val_utilisateur)  . ">Au coucher du soleil (capteur)</option>\n";
 	//liste définie par paramètres
 	for ($i=$min; $i<=$max; $i++) echo "<option" . marquer_champs($i, $val_utilisateur) . ">" .$i . "h00</option>\n";
 	//option minuit

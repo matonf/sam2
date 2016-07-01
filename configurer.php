@@ -6,28 +6,28 @@
 function recompte() 
 {
 	//Recomptage des lignes...
-	var i, nbLig;
+	var i;
 	// modification numéro de la ligne
-	for( i=1; i < document.getElementById('programmation').rows.length; i++)
+	for (i=1; i < document.getElementById('programmation').rows.length; i++)
 	{
 		document.getElementById('programmation').rows[i].cells[5].innerHTML = "<a href=\"#null\" title=\"Supprimer\" onClick=\"javascript:supprime(" + i + ");\">[suppr]</a>";
 	}
 }
 function supprime(numligne) 
 {  
-    //supprime la ligne demandée
+	//supprime la ligne demandée
 	document.getElementById('programmation').deleteRow(numligne); 
 	recompte();
 }
 function ajoute() 
 {  
-    var ancienTotal, nouvelleLigne, col ;
+	var ancienTotal, nouvelleLigne, col ;
 	ancienTotal = document.getElementById('programmation').rows.length;
 	//ajoute une ligne
 	nouvelleLigne = document.getElementById('programmation').insertRow(-1);
 	col = document.getElementById('programmation').rows[ancienTotal-1].cells.length;
 	//recopie des valeurs, incrémente le motif itemX
-	for (i=0; i <(col); i++)
+	for (i=0; i <col; i++)
 	{
 		nouvelleLigne.insertCell(i);
 		nouvelleLigne.cells[i].innerHTML = document.getElementById('programmation').rows[ancienTotal-1].cells[i].innerHTML.replace("item"+(ancienTotal-1),"item"+ancienTotal);
@@ -51,35 +51,10 @@ if (! empty($_POST))
 {
 	//si la ville a changé, on le log
 	if ($_POST["ville_utilisateur"] != $conf_mamaison["ville_utilisateur"]) ecrire_log("a changé sa ville de référence : " . $_POST["ville_utilisateur"]);
-
-		/* mise en com, plus besoin du fichier levers_couchers.conf		
-		//récupération des coordonnées de la ville choisie
-		$latitude = $villes[$_POST["ville_utilisateur"]][0];
-		$longitude = $villes[$_POST["ville_utilisateur"]][1];
-		//calendrier solaire pour toute l'année
-		$ligne = null;
-		for ($mois=1; $mois<=12; $mois++)
-		{
-			for ($jour=1; $jour<=cal_days_in_month(CAL_GREGORIAN, $mois, date("Y")); $jour++)
-			{
-				//les infos nécessaires aux calculs
-				$lever = date_sunrise(mktime(1,1,1,$mois, $jour) , SUNFUNCS_RET_STRING, $latitude, $longitude);
-				$coucher = date_sunset(mktime(1,1,1,$mois, $jour), SUNFUNCS_RET_STRING, $latitude, $longitude);
-				//format du fichier, ex: L:08h51, C:17h06
-				$ligne .= "$lever,$coucher" . PHP_EOL;
-				
-			}
-		}
-		//écrire dans le fichier des horaires
-		$pointeur_horaires = fopen(MES_HORAIRES, "w");
-		fwrite($pointeur_horaires,$ligne);
-		fclose($pointeur_horaires);
-		//fin de la modif
-		*/
 	
 	//stockage de la conf dans une variable
 	$sto_conf_mamaison = "ville_utilisateur=" . $_POST["ville_utilisateur"] . "\n";
-	//reprend la numérotation des items à 1
+	//reprend la numérotation des items dans le fichier de conf
 	$i = 0;
 	//parcours des POST trouvés
 	foreach($_POST as $var => $val)
@@ -91,8 +66,8 @@ if (! empty($_POST))
 		$varoff = $var . "_off";
 		$varjours = $var . "_jours";
 		$varitems = $var . "_items";
-		//ajoute la ligne courante
 		$i++;
+		//ajoute la ligne courante à la conf
 		$sto_conf_mamaison .= "item" . $i . "=" . $_POST[$var] . "," . $_POST[$varitems] . "," . $_POST[$varon] . "," . $_POST[$varoff] . "," . $_POST[$varjours] . PHP_EOL;
 	}
 
@@ -100,8 +75,8 @@ if (! empty($_POST))
 	$pointeur_conf = fopen(MA_CONF, "w");
 	fwrite($pointeur_conf, $sto_conf_mamaison);
 	fclose($pointeur_conf);
-	//force le recalcul immédiat de la cron
-	system("cron.php");
+	//force le recalcul immédiat de la crontab
+	require("cron.php");
 	//message pour l'utilisateur 
 	die("Configuration enregistrée. Vous allez être redirigé vers la page d'accueil.<script type=\"text/javascript\">setTimeout('document.location.href=\"./\"', 3000)</script>");
 }
