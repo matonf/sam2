@@ -25,13 +25,10 @@ string onoff;
 
 void log(string a){
 	//Décommenter pour avoir les logs
-
 	//cout << a << endl;
 }
 
-
-
-
+/*
 void scheduler_realtime() {
 
 struct sched_param p;
@@ -49,10 +46,10 @@ if( sched_setscheduler( 0, SCHED_OTHER, &p ) == -1 ) {
 perror("Failed to switch to normal scheduler.");
 }
 }
+*/
 
 
-
-//Envois d'une pulsation (passage de l'etat haut a l'etat bas)
+//Envoi d'une pulsation (passage de l'etat haut a l'etat bas)
 //1 = 310µs haut puis 1340µs bas
 //0 = 310µs haut puis 310µs bas
 void sendBit(bool b) {
@@ -104,8 +101,6 @@ void itobInterruptor(unsigned long integer, int length)
 }
 
 
-
-
 //Envoie d'une paire de pulsation radio qui definissent 1 bit réel : 0 =01 et 1 =10
 //c'est le codage de manchester qui necessite ce petit bouzin, ceci permet entre autres de dissocier les données des parasites
 void sendPair(bool b) {
@@ -122,7 +117,7 @@ void sendPair(bool b) {
 }
 
 
-//Fonction d'envois du signal
+//Fonction d'envoi du signal
 //recoit en parametre un booleen définissant l'arret ou la marche du matos (true = on, false = off)
 void transmit(int blnOn)
 {
@@ -174,7 +169,7 @@ void transmit(int blnOn)
 
 int main (int argc, char** argv)
 {
-
+/*
 	if (setuid(0))
 	{
 
@@ -183,8 +178,11 @@ int main (int argc, char** argv)
 
 	}
 
+	//url : http://blog.idleman.fr/raspberry-pi-10-commander-le-raspberry-pi-par-radio/
+	//Modifier le programme radioEmission pour désactiver la fonction de priorisation de la tache (scheduler_real_time si mes souvenirs sont bons) et le recompiler
 
 	scheduler_realtime();
+	*/
 
 	log("Demarrage du programme");
 	pin = atoi(argv[1]);
@@ -206,7 +204,7 @@ int main (int argc, char** argv)
 	
 	
 	if(onoff=="on"){
-	 system("/etc/lcd/screen -p \"Radio signal ON...\"");
+	 //system("/etc/lcd/screen -p \"Radio signal ON...\"");
 	 log("envois du signal ON");
 	 for(int i=0;i<5;i++){
 		 transmit(true);            // envoyer ON
@@ -214,7 +212,7 @@ int main (int argc, char** argv)
 	 }
 
 	}else{
-	 system("/etc/lcd/screen -p \"Radio signal OFF...\"");
+	 //system("/etc/lcd/screen -p \"Radio signal OFF...\"");
 	 log("envois du signal OFF");
 	 for(int i=0;i<5;i++){
 		 transmit(false);           // envoyer OFF
@@ -225,6 +223,7 @@ int main (int argc, char** argv)
 	 log("fin du programme");    // execution terminée.
 
 
-	scheduler_standard();
+	//Modifier le programme radioEmission pour désactiver la fonction de priorisation de la tache (scheduler_real_time si mes souvenirs sont bons) et le recompiler
+	//scheduler_standard();
 }
 

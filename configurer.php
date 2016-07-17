@@ -97,7 +97,7 @@ echo "</select>";
 //on doit afficher les items connus
 echo "<br><br><b>Mes règles</b> <a href=\"#null\" title=\"Ajouter\" onClick=\"javascript:ajoute();\">+ajouter une règle</a>";
 echo "<table id=\"programmation\">";
-echo "<tr id=\"pres\"><td>Nom de la règle</td><td>Numéros des modules</td><td>Heure d'ouverture</td><td>Heure de fermeture</td><td>Jours d'activation</td><td></td></td></tr>\n";
+echo "<tr id=\"pres\"><td>Nom</td><td>Modules</td><td>Ouverture</td><td>Fermeture</td><td>Activation</td><td></td></td></tr>\n";
 $i = 0;
 //parcours des items connus
 foreach($conf_mamaison as $var => $val)
@@ -106,10 +106,10 @@ foreach($conf_mamaison as $var => $val)
 	if (! item_valide($var)) continue;
 	$item_cur = $conf_mamaison[$var];
 	//nom
-	echo "<tr><td><input type=text name=\"" . $var . "\" value=\""  . item_desc($item_cur) . "\"></td>";
+	echo "<tr><td><input type=text size=18 name=\"" . $var . "\" value=\""  . item_desc($item_cur) . "\"></td>";
 	//liste des items
 	echo "<td>";
-	echo "<input type=text name=\"" . $var . "_items" . "\" value=\""  . item_items($item_cur) . "\">";
+	echo "<input type=text size=10 name=\"" . $var . "_items" . "\" value=\""  . item_items($item_cur) . "\">";
 	//allumer
 	echo "</td><td>";
 	creer_liste_horaire($var."_on", 6, 18, item_on($item_cur));

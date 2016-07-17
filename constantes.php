@@ -26,4 +26,8 @@ define('VERSION', '2.0');
 define('DELIMITEUR', ',');
 //chemin du dossier web
 define('CHEMIN', '/var/www/sam/');
+//accepte les demi-heures dans la programmation
+define('AFFICHER30', true);
+//accepte un capteur crépusculaire dans la programmation
+define('AFFICHER_CAPTEUR', false);
 ?>

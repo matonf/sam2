@@ -14,18 +14,14 @@ function creer_ligne_cron($etat, $items, $heure_activation, $periode_activation)
 	{
 		case "semaine" : if ($numjour_semaine >= 6) return; break;
 		case "week_end" : if ($numjour_semaine <= 5) return; break;
-		
 	}
-	//par défaut, on lance à l'heure pile
-	$minutes = 0;
-
 	switch ($heure_activation)
 	{
-		//c'est l'option ne rien faire
+		//c'est l'option "ne rien faire"
 		case 25 : 
 			return; break;
 
-		//minuit devient 23h59
+		//minuit devient 23h59 pour le lancement le jour même
 		case 24 : 
 			$heure = 23; 
 			$minutes = 59; 
@@ -37,35 +33,32 @@ function creer_ligne_cron($etat, $items, $heure_activation, $periode_activation)
 			//jour du mois
 			$jour = date("j");
 			//mois de l'année
-			$mois = date("n");
-
-			/* mise en com, plus besoin du fichier levers_couchers.conf
-			$monfichier = file(CHEMIN . 'levers_couchers.conf');
-			//extrait la ligne du jour (08:47,17:21)
-			$horaires = explode(",",$monfichier[$numjour_an]);
-			//renvoie l'heure de lever ou de coucher en tableau
-			if ($heure_activation == "autol") $heure_tab = explode(":", $horaires[0]);
-			else $heure_tab = explode(":", trim($horaires[1]));
-			$heure = $heure_tab[0];
-			$minutes = $heure_tab[1];
-			*/
-			
+			$mois = date("n");			
 			//récupération des coordonnées de la ville choisie
 			$latitude = $villes[$conf_mamaison["ville_utilisateur"]][0];
 			$longitude = $villes[$conf_mamaison["ville_utilisateur"]][1];
 			//calcul de l'horaire solaire pour la France (GMT+2)
 			if ($heure_activation == "autol") $slaire = date_sunrise(mktime(1,1,1, $mois, $jour) , SUNFUNCS_RET_STRING, $latitude, $longitude, 90, 2);
-			
 			if ($heure_activation == "autoc") $slaire = date_sunset(mktime(1,1,1, $mois, $jour), SUNFUNCS_RET_STRING, $latitude, $longitude, 90, 2);
 			$heure_tab = explode(":", $slaire);
 			//formatage des données pour la cron
 			$heure = $heure_tab[0];
 			$minutes = $heure_tab[1];
-
-			break;
-		//le reste (14h00 devient 14)
+			break;	
+		
 		default : 
-			$heure = $heure_activation; 
+			//cas des heures fixes 
+			if (strlen($heure_activation) <= 2)
+			{		
+				$heure = $heure_activation; 
+				$minutes = 0;
+			}
+			else
+			{
+				//cas des heures intermédiaires (les minutes sont par 2 : 15, 30, 45)
+				$heure = substr($heure_activation, 0, strlen($heure_activation)-2);
+				$minutes = substr($heure_activation, strlen($heure_activation)-2);
+			}
 			break;
 	}
 	return "$minutes $heure * * * " . CHEMIN . "mamaison.sh $etat $items #cronSAM " . VERSION . PHP_EOL;

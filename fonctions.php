@@ -51,13 +51,21 @@ function marquer_champs($val, $choix_utilisateur)
 function creer_liste_horaire($nom, $min, $max, $val_utilisateur)
 {
 	echo "<select name='$nom'>\n";
-	//lever	
+	//lever	automatique : calcul astronomique
 	echo "<option" . marquer_champs("autol", $val_utilisateur)  . ">Au lever du soleil</option>\n";
-	//coucher
+	//lever réel : capteur crépusculaire
+	if (AFFICHER_CAPTEUR) echo "<option" . marquer_champs("autol-capteur", $val_utilisateur)  . ">Au lever du soleil (capteur)</option>\n";
+	//coucher automatique : calcul astronomique
 	echo "<option" . marquer_champs("autoc", $val_utilisateur)  . ">Au coucher du soleil</option>\n";
-	//echo "<option" . marquer_champs("autoc-capteur", $val_utilisateur)  . ">Au coucher du soleil (capteur)</option>\n";
-	//liste définie par paramètres
-	for ($i=$min; $i<=$max; $i++) echo "<option" . marquer_champs($i, $val_utilisateur) . ">" .$i . "h00</option>\n";
+	//lever réel : capteur crépusculaire
+	if (AFFICHER_CAPTEUR) echo "<option" . marquer_champs("autoc-capteur", $val_utilisateur)  . ">Au coucher du soleil (capteur)</option>\n";
+	//liste définie par paramètres : les heures
+	for ($i=$min; $i<=$max; $i++) 
+	{
+		echo "<option" . marquer_champs($i, $val_utilisateur) . ">" .$i . "h00</option>\n";
+		//option demi-heures
+		if (AFFICHER30) echo "<option" . marquer_champs($i."30", $val_utilisateur) . ">" .$i . "h30</option>\n";
+	}
 	//option minuit
 	echo "<option" . marquer_champs("24", $val_utilisateur)  . ">Minuit</option>\n";
 	//possiblité de ne pas utiliser l'élément ou le groupe d'éléments
@@ -75,16 +83,15 @@ function creer_liste_jours($nom, $val_utilisateur)
 	echo "</select>\n";
 }
 
-//ouvrir et fermer un objet
+//ouvrir ou fermer un objet par onde radio
 function activer($objet, $etat)
 {
 	$commande = './radioEmission ' . PIN . ' ' . SENDER . ' ' . $objet . ' ' . $etat;
 	system($commande);
-	ecrire_log("a passé à $etat l'objet $objet");
+	ecrire_log("a passé l'objet $objet à $etat");
 }
 
 //fonctions de manipulations des champs de la conf
-
 
 function item_valide($nom)
 {
@@ -95,7 +102,6 @@ function item_valide($nom)
 
 function item_expl($texte, $delimiteur=DELIMITEUR)
 {
-	
 	return explode($delimiteur,$texte);
 }
 
