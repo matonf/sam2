@@ -36,13 +36,13 @@ function ajoute()
 }
 </script>
 </head>
-<body bgcolor="#f8f8f6">
 <?php 
 /*
 Par Matthieu ONFRAY (http://www.onfray.info)
 Licence : CC by sa
 */
 require_once("fonctions.php");
+afficher_fond_page();
  
 //charge la conf de l'utilisateur
 $conf_mamaison = charger_conf();

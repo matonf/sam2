@@ -5,27 +5,76 @@ Licence : CC by sa
 */
 
 //SECURITE 
-//on charge des constantes
-require_once("constantes.php");
-
-//si pas de cookie déposé, c'est qu'on est nouveau ici !
-if (! isset($_COOKIE["cookie_sam_id"]) && SECURISER == true) 
-{
-	header("Location: login.php");
-	exit();
-}
-
 //filtre des variables postées
 foreach ($_REQUEST as $key => $val) 
 {
 	$val = trim(stripslashes(@htmlentities($val)));
 	$_REQUEST[$key] = $val;
 }
+
+//on charge des constantes
+require_once("constantes.php");
+
+//si la sécurisation par login a été demandée (et qu'on a pas lancé via un script)
+if (SECURISER == true && basename($_SERVER['PHP_SELF']) != "cron.php") 
+{
+	require_once("id.php");
+	$autorise = false;
+	//a-t-on le droit d'entrer ici ?
+	for ($i=0; $i<count($utilisateurs); $i++) 
+	{
+		//vérification du couple login && mdp 
+		if ($utilisateurs[$i][0] == $_COOKIE["cookie_sam" . VERSION . "_id"] && md5($utilisateurs[$i][1]) == $_COOKIE["cookie_sam" . VERSION . "_mdp"])
+		{
+			$autorise = true;
+			break;
+		}
+	}
+	
+	if ($autorise)
+	{
+		//oui
+		ecrire_log("s'est identifié");
+	}
+	else 
+	{
+		//non
+		header("Location: login.php");
+		exit();
+	}
+}
+
  
 ecrire_log("a visité la page ". basename($_SERVER['PHP_SELF']));
 
-
 //FONCTIONS
+
+//est-on en mode vacances ?
+function est_en_mode_vacances()
+{
+	return file_exists(FIC_VACANCES);
+}
+
+//active ou déasctive le mode vacances
+function activer_mode_vacances($activer=true)
+{
+		if ($activer) 
+		{
+			//on crée un fichier vide
+			$f = fopen(FIC_VACANCES, "w");
+			fclose($f);
+		}
+		else unlink(FIC_VACANCES);
+	//force le recalcul immédiat de la crontab
+	require("cron.php");
+}
+
+//change la couleur du fond de page selon le mode vacances
+function afficher_fond_page()
+{
+	if (est_en_mode_vacances()) echo "<body bgcolor=\"" . FOND_VACANCES . "\">";
+	else "<body bgcolor=\"" . FOND_NORMAL . "\">";
+}
 
 //log les événements
 function ecrire_log($texte)
@@ -84,7 +133,7 @@ function creer_liste_jours($nom, $val_utilisateur)
 }
 
 //ouvrir ou fermer un objet par onde radio
-function activer($objet, $etat)
+function activer_module_radio($objet, $etat)
 {
 	$commande = './radioEmission ' . PIN . ' ' . SENDER . ' ' . $objet . ' ' . $etat;
 	system($commande);

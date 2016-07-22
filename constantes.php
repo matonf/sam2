@@ -5,7 +5,7 @@ Licence : CC by sa
 */
 //CONSTANTES
 //sécuriser l'accès par login
-define('SECURISER', false);
+define('SECURISER', true);
 //Numéro WiringPi du pin raspberry branché a l'emetteur radio
 define('PIN', 0);
 //Code télécommande du raspberry (ne doit pas exceder les 2^26)
@@ -21,7 +21,7 @@ define('LOG', false);
 //fichier de log
 define('HISTO', 'historique.log');
 //version du logiciel
-define('VERSION', '2.0');
+define('VERSION', '2');
 //délimiteur du fichier de conf
 define('DELIMITEUR', ',');
 //chemin du dossier web
@@ -30,4 +30,10 @@ define('CHEMIN', '/var/www/sam/');
 define('AFFICHER30', true);
 //accepte un capteur crépusculaire dans la programmation
 define('AFFICHER_CAPTEUR', false);
+//fichier de LOC, du mode vacances
+define('FIC_VACANCES', 'VACANCES');
+//fond de page du mode vacances
+define('FOND_VACANCES', '#FFFC4F');
+//fond de page normal
+define('FOND_NORMAL', '#f8f8f6');
 ?>

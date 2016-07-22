@@ -3,13 +3,24 @@
 <meta charset="utf-8">
 <title>SAM pilote ma maison</title>
 </head>
-<body bgcolor="#f8f8f6">
 <?php
 /*
 Par Matthieu ONFRAY (http://www.onfray.info)
 Licence : CC by sa
 */
 require_once("fonctions.php");
+
+if (isset($_POST["vacances"]))
+{
+	switch ($_POST["vacances"])
+	{
+		case "passer en mode vacances" : activer_mode_vacances(); break;
+		case "sortir du mode vacances" : activer_mode_vacances(false); break;
+	}
+}
+
+afficher_fond_page();
+
 //charge la conf de l'utilisateur
 $conf_mamaison = charger_conf();
 echo "<b>Mode interactif :</b><br>";
@@ -33,10 +44,12 @@ if ($_GET)
 	//récupère l'élément concerné par l'action
 	$items = item_expl(item_items($conf_mamaison[$_GET["item"]]), " ");
 	//activation des objets en mode manuel : "on" pour les ouvrir et "off" pour les fermer
-	for ($i=0; $i<count($items); $i++) activer($items[$i], $_GET['etat']);
+	for ($i=0; $i<count($items); $i++) activer_module_radio($items[$i], $_GET['etat']);
 }
+
+echo "<a href=\"configurer.php\">Configurer</a><br><br>";
+if (est_en_mode_vacances()) echo "<form method=post><input type=submit name=vacances value=\"sortir du mode vacances\"></form>";
+else echo "<form method=post><input type=submit name=vacances value=\"passer en mode vacances\"></form>";
 ?>
-<!-- configurer -->
-<a href="configurer.php">Configurer</a>
   </body>
 </html>

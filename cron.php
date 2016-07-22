@@ -3,7 +3,9 @@
 Par Matthieu ONFRAY (http://www.onfray.info)
 Licence : CC by sa
 */
+
 require_once("fonctions.php");
+
 
 function creer_ligne_cron($etat, $items, $heure_activation, $periode_activation)
 {
@@ -63,21 +65,29 @@ function creer_ligne_cron($etat, $items, $heure_activation, $periode_activation)
 	}
 	return "$minutes $heure * * * " . CHEMIN . "mamaison.sh $etat $items #cronSAM " . VERSION . PHP_EOL;
 }
+//FIN DE LA FONCTION
+
 
 //charge la conf de l'utilisateur
 $conf_mamaison = charger_conf();
 $ligne_cron = null;
-//parcours des items connus
-foreach($conf_mamaison as $var => $val)
+
+//détection du mode vacances
+if (! est_en_mode_vacances())
 {
-	//recherche le motif "itemX" : si on le trouve pas on passe au motif suivant
-	if (! item_valide($var)) continue;
-	$item_cur = $conf_mamaison[$var];
-	//état on
-	$ligne_cron .= creer_ligne_cron("on", item_items($item_cur), item_on($item_cur), item_jours($item_cur));
-	//état off
-	$ligne_cron .= creer_ligne_cron("off", item_items($item_cur), item_off($item_cur), item_jours($item_cur));
-} 
+	//parcours des items connus
+	foreach($conf_mamaison as $var => $val)
+	{
+		//recherche le motif "itemX" : si on le trouve pas on passe au motif suivant
+		if (! item_valide($var)) continue;
+		$item_cur = $conf_mamaison[$var];
+		//état on
+		$ligne_cron .= creer_ligne_cron("on", item_items($item_cur), item_on($item_cur), item_jours($item_cur));
+		//état off
+		$ligne_cron .= creer_ligne_cron("off", item_items($item_cur), item_off($item_cur), item_jours($item_cur));
+	} 
+}
+
 //écrit le fichier crontab de ce jour 
 $pointeur_cron = fopen(CHEMIN . "sam.crontab.aujourdhui", "w");
 fwrite($pointeur_cron, $ligne_cron);
