@@ -1,3 +1,0 @@
-#ligne nocturne de sam : insert la nouvelle crontab ;)
-00 01 * * * php /var/www/sam/cron.php
-

@@ -1,5 +1,0 @@
-00 22 * * * /var/www/sam/mamaison.sh on 1 2 #cronSAM 2.0
-59 23 * * * /var/www/sam/mamaison.sh off 1 2 #cronSAM 2.0
-0 23 * * * /var/www/sam/mamaison.sh off 3 4 5 #cronSAM 2.0
-58 05 * * * /var/www/sam/mamaison.sh on 44443 #cronSAM 2.0
-00 22 * * * /var/www/sam/mamaison.sh off 44443 #cronSAM 2.0
