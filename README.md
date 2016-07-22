@@ -43,6 +43,8 @@ Si vous déménagez loin, il est logique de retourner choisir la nouvellle ville
 
 4) Ressources et inspirations
 http://blog.idleman.fr/raspberry-pi-12-allumer-des-prises-distance/
+
 https://www.guillaume-leduc.fr/gestion-caches-nginx-php-fpm.html
+
 http://legissa.ovh/internet-se-proteger-des-pirates-et-hackers.html
 
