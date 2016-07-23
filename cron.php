@@ -39,6 +39,7 @@ function creer_ligne_cron($etat, $items, $heure_activation, $periode_activation)
 			//récupération des coordonnées de la ville choisie
 			$latitude = $villes[$conf_mamaison["ville_utilisateur"]][0];
 			$longitude = $villes[$conf_mamaison["ville_utilisateur"]][1];
+
 			//calcul de l'horaire solaire pour la France (GMT+2)
 			if ($heure_activation == "autol") $slaire = date_sunrise(mktime(1,1,1, $mois, $jour) , SUNFUNCS_RET_STRING, $latitude, $longitude, 90, 2);
 			if ($heure_activation == "autoc") $slaire = date_sunset(mktime(1,1,1, $mois, $jour), SUNFUNCS_RET_STRING, $latitude, $longitude, 90, 2);
@@ -46,6 +47,7 @@ function creer_ligne_cron($etat, $items, $heure_activation, $periode_activation)
 			//formatage des données pour la cron
 			$heure = $heure_tab[0];
 			$minutes = $heure_tab[1];
+//echo "j=" .$jour . " m=" . $mois . " v="  . $conf_mamaison["ville_utilisateur"] . " lon=". $longitude . " lat" . $latitude. " h=" . $heure . " m=" . $minute;
 			break;	
 		
 		default : 

@@ -65,8 +65,6 @@ function activer_mode_vacances($activer=true)
 			fclose($f);
 		}
 		else unlink(FIC_VACANCES);
-	//force le recalcul immédiat de la crontab
-	require("cron.php");
 }
 
 //change la couleur du fond de page selon le mode vacances

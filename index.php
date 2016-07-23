@@ -12,11 +12,14 @@ require_once("fonctions.php");
 
 if (isset($_POST["vacances"]))
 {
+	ecrire_log("a demandé à " . $_POST["vacances"]);
 	switch ($_POST["vacances"])
 	{
 		case "passer en mode vacances" : activer_mode_vacances(); break;
 		case "sortir du mode vacances" : activer_mode_vacances(false); break;
 	}
+	//force le recalcul immédiat de la crontab
+	require("cron.php");
 }
 
 afficher_fond_page();
