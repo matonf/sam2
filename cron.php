@@ -101,4 +101,5 @@ system($ancienne_crontab);
 //on ajoute celles du jour et on sauve
 $nouvelle_crontab = '(cd ' . CHEMIN . ';cat sam.crontab.hier sam.crontab.aujourdhui) | crontab -';
 system($nouvelle_crontab);
+ecrire_log("a reconfiguré la programmation");
 ?>

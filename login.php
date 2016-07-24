@@ -27,7 +27,7 @@ if (! empty($_POST['playerlogin']) && ! empty($_POST['playerpass']))
 		{
 			//vérification du captcha
 			if ($_SESSION["captcha"] == $_POST["bot"])
-			{
+			{				
 				// on envoie le cookie avec le mode httpOnly
 				setcookie("cookie_sam" . VERSION . "_id", $utilisateurs[$i][0], time()+COOKIE_EXPIRE, null, null, false, true);
 				setcookie("cookie_sam" . VERSION . "_mdp", md5($utilisateurs[$i][1]), time()+COOKIE_EXPIRE, null, null, false, true);

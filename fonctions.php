@@ -31,12 +31,7 @@ if (SECURISER == true && basename($_SERVER['PHP_SELF']) != "cron.php")
 		}
 	}
 	
-	if ($autorise)
-	{
-		//oui
-		ecrire_log("s'est identifié");
-	}
-	else 
+	if (! $autorise)
 	{
 		//non
 		header("Location: login.php");
@@ -80,7 +75,7 @@ function ecrire_log($texte)
 	if (LOG === false) return false;
 	//écriture de la conf personnelle
 	$pointeur_log = fopen(HISTO, "a");
-	if (isset($_COOKIE["cookie_sam_id"])) $utilisateur = $_COOKIE["cookie_sam_id"];
+	if (isset($_COOKIE["cookie_sam" . VERSION . "_id"])) $utilisateur = $_COOKIE["cookie_sam" . VERSION . "_id"];
 	else $utilisateur = "l'utilisateur";
 	fwrite($pointeur_log, "Le " . date("d/m/Y à H:i") . ", " . $utilisateur . " " . $texte . PHP_EOL);
 	fclose($pointeur_log);
