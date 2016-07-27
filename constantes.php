@@ -36,4 +36,8 @@ define('FIC_VACANCES', 'VACANCES');
 define('FOND_VACANCES', '#FFFC4F');
 //fond de page normal
 define('FOND_NORMAL', '#f8f8f6');
+//nom du cookie de l'utilisateur
+define('COOKIE_ID', "cookie_sam" . VERSION . "_id");
+//nom du cookie du mot de passe
+define('COOKIE_MDP', "cookie_sam" . VERSION . "_mdp");
 ?>

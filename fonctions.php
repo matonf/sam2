@@ -23,11 +23,14 @@ if (SECURISER == true && basename($_SERVER['PHP_SELF']) != "cron.php")
 	//a-t-on le droit d'entrer ici ?
 	for ($i=0; $i<count($utilisateurs); $i++) 
 	{
-		//vérification du couple login && mdp 
-		if ($utilisateurs[$i][0] == $_COOKIE["cookie_sam" . VERSION . "_id"] && md5($utilisateurs[$i][1]) == $_COOKIE["cookie_sam" . VERSION . "_mdp"])
-		{
-			$autorise = true;
-			break;
+		//vérification du couple login && mdp
+		if (isset($_COOKIE[COOKIE_ID]))
+		{ 
+			if ($utilisateurs[$i][0] == $_COOKIE[COOKIE_ID] && md5($utilisateurs[$i][1]) == $_COOKIE[COOKIE_MDP])
+			{
+				$autorise = true;
+				break;
+			}
 		}
 	}
 	
@@ -75,7 +78,7 @@ function ecrire_log($texte)
 	if (LOG === false) return false;
 	//écriture de la conf personnelle
 	$pointeur_log = fopen(HISTO, "a");
-	if (isset($_COOKIE["cookie_sam" . VERSION . "_id"])) $utilisateur = $_COOKIE["cookie_sam" . VERSION . "_id"];
+	if (isset($_COOKIE["cookie_sam" . VERSION . "_id"])) $utilisateur = $_COOKIE[COOKIE_ID];
 	else $utilisateur = "l'utilisateur";
 	fwrite($pointeur_log, "Le " . date("d/m/Y à H:i") . ", " . $utilisateur . " " . $texte . PHP_EOL);
 	fclose($pointeur_log);
