@@ -68,7 +68,7 @@ if (! empty($_POST))
 		$varitems = $var . "_items";
 		$i++;
 		//ajoute la ligne courante à la conf
-		$sto_conf_mamaison .= "item" . $i . "=" . $_POST[$var] . "," . $_POST[$varitems] . "," . $_POST[$varon] . "," . $_POST[$varoff] . "," . $_POST[$varjours] . PHP_EOL;
+		$sto_conf_mamaison .= "item" . $i . " = \"" . $_POST[$var] . "," . $_POST[$varitems] . "," . $_POST[$varon] . "," . $_POST[$varoff] . "," . $_POST[$varjours] . "\"" . PHP_EOL;
 	}
 
 	//écriture de la conf personnelle
@@ -106,7 +106,7 @@ foreach($conf_mamaison as $var => $val)
 	if (! item_valide($var)) continue;
 	$item_cur = $conf_mamaison[$var];
 	//nom
-	echo "<tr><td><input type=text size=18 name=\"" . $var . "\" value=\""  . item_desc($item_cur) . "\"></td>";
+	echo "<tr><td><input type=text size=18 name=\"" . $var . "\" value=\""  . ucfirst(item_desc($item_cur)) . "\"></td>";
 	//liste des items
 	echo "<td>";
 	echo "<input type=text size=10 name=\"" . $var . "_items" . "\" value=\""  . item_items($item_cur) . "\">";

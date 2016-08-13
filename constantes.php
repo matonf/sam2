@@ -17,7 +17,7 @@ $villes = [ "Lille" => [ 50.6329700, 3.0585800 ] , "Rouen" => [ 49.4431300, 1.09
 // RETENTION DU COOKIE : 1 an
 define('COOKIE_EXPIRE', 365*24*3600);
 //faut-il loguer
-define('LOG', false);
+define('LOG', true);
 //fichier de log
 define('HISTO', 'historique.log');
 //version du logiciel

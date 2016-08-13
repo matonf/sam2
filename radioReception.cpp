@@ -41,7 +41,7 @@ int pin;
 //Fonction de log
 void log(string a){
 	//Décommenter pour avoir les logs
-	cout << a << endl;
+	//cout << a << endl;
 }
 
 //Fonction de conversion long vers string
@@ -143,31 +143,33 @@ int main (int argc, char** argv)
 		
 		command = path+" ";
 		t = pulseIn(pin, LOW, 1000000);
-		log("Stage 1");
 		
-		while((t < 2550 || t > 2750)){
+		//Verrou 1
+		while((t < 2700 || t > 2800)){
 			t = pulseIn(pin, LOW,1000000);
 		}
-		log("Stage 2");
+		log("Verrou 1 detecte");
 		// données
 		while(i < 64)
 		{
 			t = pulseIn(pin, LOW, 1000000);
+			//cout << "t = " << t << endl;
 			
-		//Définition du bit (0 ou 1)
-	        if(t > 200 && t < 365)
-		{
-			bit = 0;
-		}
-	        else if(t > 1000 && t < 1360)
-		{
+			//Définition du bit (0 ou 1)
+	        if(t > 180 && t < 420)
+			{
+				bit = 0;
+			}
+			
+	        else if(t > 1280 && t < 1480)
+			{
 				bit = 1;
-		}
-		else
-		{	// start over if the low pulse was out of range
-			i = 0;
-			break;
-		}
+			}
+			else
+			{
+				i = 0;
+				break;
+			}
 			
 			
 			if(i % 2 == 1)
@@ -213,33 +215,33 @@ int main (int argc, char** argv)
 	
 		log("------------------------------");
 		log("Donnees detectees");
-		//cout << "sender " << sender << endl;
+		cout << "sender " << sender << endl;
 		
 		//on construit la commande qui vas envoyer les parametres au PHP
 		command.append(longToString(sender));
 		if(group)
 		{
 			command.append(" on");
-			//cout << "group command" << endl;
+			cout << "group command" << endl;
 		}
 		else
 		{
 			command.append(" off");
-			//cout << "no group" << endl;
+			cout << "no group" << endl;
 		}
 
 		if(on)
 		{
 			command.append(" on");
-			//cout << "on" << endl;
+			cout << "on" << endl;
 		}
 		else
 		{
 			command.append(" off");
-			//cout << "off" << endl;
+			cout << "off" << endl;
 		}
 		command.append(" "+longToString(recipient));
-		//cout << "recipient " << recipient << endl;
+		cout << "recipient " << recipient << endl;
 		log("Execution de la commande PHP");
 		//Et hop, on envoie tout ça au PHP
 		system(command.c_str());

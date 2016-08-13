@@ -175,6 +175,21 @@ function item_jours($texte)
 	return item_expl($texte)[4];
 }
 
+//des libellés dynamiques en fonction des noms de groupes
+function texte_on($texte)
+{
+	if (stripos($texte, "volet") !== false || stripos($texte, "store") !== false) return "ouverture";
+	if (stripos($texte, "lampe") !== false) return "allumage";
+	return "on";
+}
+
+function texte_off($texte)
+{
+	if (stripos($texte, "volet") !== false || stripos($texte, "store") !== false) return "fermeture";
+	if (stripos($texte, "lampe") !== false) return "extinction";
+	return "off";
+}
+
 //charge le fichier utilisateur et retourne un tableau associatif
 function charger_conf()
 {
