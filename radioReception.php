@@ -23,11 +23,11 @@ switch($interruptor){
 
 	//Rangée d'interrupteur 1 
 	case '0':
-		system('gpio mode 3 out');
+		//system('gpio mode 3 out');
 		//Bouton On appuyé
-		if($state=='on') $i=1;
-		else $i=0;
-		echo 'Mise à $1 du PIN 3 (15 Pin physique)';
+		//if($state=='on') $i=1;
+		//else $i=0;
+		//echo 'Mise à $1 du PIN 3 (15 Pin physique)';
 		//system('gpio write 3 $i');
 		//Bouton off appuyé
 		/*}else{

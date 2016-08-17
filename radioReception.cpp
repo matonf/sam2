@@ -145,7 +145,7 @@ int main (int argc, char** argv)
 		t = pulseIn(pin, LOW, 1000000);
 		
 		//Verrou 1
-		while((t < 2700 || t > 2800)){
+		while((t < 2200 || t > 3000)){
 			t = pulseIn(pin, LOW,1000000);
 		}
 		log("Verrou 1 detecte");

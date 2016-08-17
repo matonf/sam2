@@ -36,7 +36,7 @@ foreach($conf_mamaison as $var => $val)
 	if (! isset($conf_mamaison[$var])) break;
 	else $item_cur = $conf_mamaison[$var];
 	//action ouvrir/fermer OU allumer/éteindre selon le type de l'item
-	echo ucfirst(item_desc($item_cur)) . " <a href=\"?etat=on&item=" . $var . "\">" . texte_on(item_desc($item_cur)) . "</a> <a href=\"?etat=off&item=" . $var . "\">" . texte_off(item_desc($item_cur)) . "</a>";
+	echo ucfirst(item_desc($item_cur)) . " <a href=\"?etat=on&item=" . $var . "\">" . texte_on(item_desc($item_cur)) . "</a> / <a href=\"?etat=off&item=" . $var . "\">" . texte_off(item_desc($item_cur)) . "</a>";
 	echo "<br>";
 } 
 

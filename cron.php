@@ -7,7 +7,7 @@ Licence : CC by sa
 require_once("fonctions.php");
 
 
-function creer_ligne_cron($etat, $items, $heure_activation, $periode_activation)
+function creer_ligne_cron($etat, $item, $heure_activation, $periode_activation)
 {
 	//Jour de la semaine : 1 (pour Lundi) à 7 (pour Dimanche)
 	$numjour_semaine = date("N");
@@ -47,7 +47,6 @@ function creer_ligne_cron($etat, $items, $heure_activation, $periode_activation)
 			//formatage des données pour la cron
 			$heure = $heure_tab[0];
 			$minutes = $heure_tab[1];
-//echo "j=" .$jour . " m=" . $mois . " v="  . $conf_mamaison["ville_utilisateur"] . " lon=". $longitude . " lat" . $latitude. " h=" . $heure . " m=" . $minute;
 			break;	
 		
 		default : 
@@ -65,7 +64,7 @@ function creer_ligne_cron($etat, $items, $heure_activation, $periode_activation)
 			}
 			break;
 	}
-	return "$minutes $heure * * * " . CHEMIN . "mamaison.sh $etat $items #cronSAM " . VERSION . PHP_EOL;
+	return "$minutes $heure * * * php " . CHEMIN . "activer.php $etat $item #cronSAM " . VERSION . PHP_EOL;
 }
 //FIN DE LA FONCTION
 
@@ -84,9 +83,9 @@ if (! est_en_mode_vacances())
 		if (! item_valide($var)) continue;
 		$item_cur = $conf_mamaison[$var];
 		//état on
-		$ligne_cron .= creer_ligne_cron("on", item_items($item_cur), item_on($item_cur), item_jours($item_cur));
+		$ligne_cron .= creer_ligne_cron("on", $var, item_on($item_cur), item_jours($item_cur));
 		//état off
-		$ligne_cron .= creer_ligne_cron("off", item_items($item_cur), item_off($item_cur), item_jours($item_cur));
+		$ligne_cron .= creer_ligne_cron("off", $var, item_off($item_cur), item_jours($item_cur));
 	} 
 }
 

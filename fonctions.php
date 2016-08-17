@@ -16,7 +16,7 @@ foreach ($_REQUEST as $key => $val)
 require_once("constantes.php");
 
 //si la sécurisation par login a été demandée (et qu'on a pas lancé via un script)
-if (SECURISER == true && basename($_SERVER['PHP_SELF']) != "cron.php") 
+if (SECURISER == true && basename($_SERVER['PHP_SELF']) != "activer.php" && basename($_SERVER['PHP_SELF']) != "cron.php") 
 {
 	require_once("id.php");
 	$autorise = false;
@@ -178,15 +178,15 @@ function item_jours($texte)
 //des libellés dynamiques en fonction des noms de groupes
 function texte_on($texte)
 {
-	if (stripos($texte, "volet") !== false || stripos($texte, "store") !== false) return "ouverture";
-	if (stripos($texte, "lampe") !== false) return "allumage";
+	if (stripos($texte, "volet") !== false || stripos($texte, "store") !== false) return "ouvrir";
+	if (stripos($texte, "lampe") !== false) return "allumer";
 	return "on";
 }
 
 function texte_off($texte)
 {
-	if (stripos($texte, "volet") !== false || stripos($texte, "store") !== false) return "fermeture";
-	if (stripos($texte, "lampe") !== false) return "extinction";
+	if (stripos($texte, "volet") !== false || stripos($texte, "store") !== false) return "fermer";
+	if (stripos($texte, "lampe") !== false) return "éteindre";
 	return "off";
 }
 
