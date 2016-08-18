@@ -59,7 +59,7 @@ function activer_mode_vacances($activer=true)
 		if ($activer) 
 		{
 			//on crée un fichier vide
-			$f = fopen(FIC_VACANCES, "w");
+			$f = fopen(CHEMIN . FIC_VACANCES, "w");
 			fclose($f);
 		}
 		else unlink(FIC_VACANCES);
@@ -77,7 +77,7 @@ function ecrire_log($texte)
 {
 	if (LOG === false) return false;
 	//écriture de la conf personnelle
-	$pointeur_log = fopen(HISTO, "a");
+	$pointeur_log = fopen(CHEMIN . HISTO, "a");
 	if (isset($_COOKIE["cookie_sam" . VERSION . "_id"])) $utilisateur = $_COOKIE[COOKIE_ID];
 	else $utilisateur = "l'utilisateur";
 	fwrite($pointeur_log, "Le " . date("d/m/Y à H:i") . ", " . $utilisateur . " " . $texte . PHP_EOL);
@@ -131,7 +131,7 @@ function creer_liste_jours($nom, $val_utilisateur)
 //ouvrir ou fermer un objet par onde radio
 function activer_module_radio($objet, $etat)
 {
-	$commande = './radioEmission ' . PIN . ' ' . SENDER . ' ' . $objet . ' ' . $etat;
+	$commande = CHEMIN . 'radioEmission ' . PIN . ' ' . SENDER . ' ' . $objet . ' ' . $etat;
 	system($commande);
 	ecrire_log("a passé l'objet $objet à $etat");
 }
