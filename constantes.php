@@ -31,7 +31,7 @@ define('CHEMIN', '/var/www/sam/');
 //accepte les demi-heures dans la programmation
 define('AFFICHER30', true);
 //accepte un capteur crépusculaire dans la programmation
-define('AFFICHER_CAPTEUR', false);
+define('AFFICHER_CAPTEUR', true);
 //fichier de LOC, du mode vacances
 define('FIC_VACANCES', 'VACANCES');
 //fond de page du mode vacances

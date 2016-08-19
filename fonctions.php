@@ -98,12 +98,10 @@ function creer_liste_horaire($nom, $min, $max, $val_utilisateur)
 	echo "<select name='$nom'>\n";
 	//lever	automatique : calcul astronomique
 	echo "<option" . marquer_champs("autol", $val_utilisateur)  . ">Au lever du soleil</option>\n";
-	//lever réel : capteur crépusculaire
-	if (AFFICHER_CAPTEUR) echo "<option" . marquer_champs("autol-capteur", $val_utilisateur)  . ">Au lever du soleil (capteur)</option>\n";
 	//coucher automatique : calcul astronomique
 	echo "<option" . marquer_champs("autoc", $val_utilisateur)  . ">Au coucher du soleil</option>\n";
 	//lever réel : capteur crépusculaire
-	if (AFFICHER_CAPTEUR) echo "<option" . marquer_champs("autoc-capteur", $val_utilisateur)  . ">Au coucher du soleil (capteur)</option>\n";
+	if (AFFICHER_CAPTEUR) echo "<option" . marquer_champs("capteur", $val_utilisateur)  . ">Par capteur</option>\n";
 	//liste définie par paramètres : les heures
 	for ($i=$min; $i<=$max; $i++) 
 	{

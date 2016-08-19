@@ -13,18 +13,38 @@ licence Creative Commons Attribution - Partage dans les Mêmes Conditions 3.0 Fra
 Les autorisations au-delà du champ de cette licence peuvent être obtenues à idleman@idleman.fr.
 */
 require_once("fonctions.php");
+
+//charge la conf de l'utilisateur
+$conf_mamaison = charger_conf();
 //Récuperation des parametres du signal sous forme de variables
 list($file,$sender,$group,$state,$interruptor) = $_SERVER['argv'];
-//Affichages des valeurs dans la console a titre informatif
-//echo "\nemetteur : $sender,\n Groupe :$group,\n on/off :$state,\n bouton :$interruptor";
 
-//En fonction de la rangée de bouton sur laquelle on à appuyé, on effectue une action
-
-//mon capteur crépusculaire DIO
+//mon capteur crépusculaire DIO a ces codes...
 if ($sender == "9841358" && $interruptor == 9)
 {
-	echo "mon capteur envoie $state\n";
-	activer_module_radio(2, $state);
+	$modules = null;	
+	echo date("d/m/Y h:m") . " - Le capteur envoie $state aux modules : ";
+	//parcours des items connus
+	foreach($conf_mamaison as $var => $val)
+	{
+		//recherche le motif "itemX" : si on le trouve pas on passe au motif suivant
+		if (! item_valide($var)) continue;
+		//sortie si inexistant
+		if (! isset($conf_mamaison[$var])) break;
+		else $item_cur = $conf_mamaison[$var];
+		//si l'item se déclenche au capteur
+		if (($state == "on" && item_on($item_cur) == "capteur") || ($state == "off" && item_off($item_cur) == "capteur"))
+		{
+			$modules .= item_desc($item_cur) . " ";	
+			//récupère les modules concernés par l'action
+			$items = item_expl(item_items($item_cur), " ");
+			//activation des objets
+			for ($i=0; $i<count($items); $i++) activer_module_radio($items[$i], $state);
+		}
+	} 
+	if (is_null($modules)) echo "aucun\n";
+	else echo $modules . "\n";
+
 }
 
 ?>
