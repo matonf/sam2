@@ -11,6 +11,7 @@ appeller une autre page en renseignant le parametre lors de l'execution du progr
 RadioPi de Valentin CARRUESCO (Idleman) est mis à disposition selon les termes de la 
 licence Creative Commons Attribution - Partage dans les Mêmes Conditions 3.0 France.
 Les autorisations au-delà du champ de cette licence peuvent être obtenues à idleman@idleman.fr.
+@modif : ONFRAY Matthieu http://onfray.info
 */
 require_once("fonctions.php");
 
@@ -22,8 +23,12 @@ list($file,$sender,$group,$state,$interruptor) = $_SERVER['argv'];
 //mon capteur crépusculaire DIO a ces codes...
 if ($sender == "9841358" && $interruptor == 9)
 {
-	$modules = null;	
-	echo date("d/m/Y h:m") . " - Le capteur envoie $state aux modules : ";
+	$modules = null;
+	//$state vaut "off" le soir, "on" le matin
+	if ($state == "on") $moment = "l'aube";
+	else $moment = "le crepuscule";
+	echo "Ici a " . $conf_mamaison["ville_utilisateur"] . ", c'est " . $moment . " le " . date("d/m/Y") . " a " . date("H:m") . "\n";
+	echo "Activation des modules suivants : ";
 	//parcours des items connus
 	foreach($conf_mamaison as $var => $val)
 	{
@@ -33,18 +38,32 @@ if ($sender == "9841358" && $interruptor == 9)
 		if (! isset($conf_mamaison[$var])) break;
 		else $item_cur = $conf_mamaison[$var];
 		//si l'item se déclenche au capteur
-		if (($state == "on" && item_on($item_cur) == "capteur") || ($state == "off" && item_off($item_cur) == "capteur"))
+		//ouverture à l'aube 
+		if (item_on($item_cur) == "capteur-aube" && $state == "on") 
 		{
-			$modules .= item_desc($item_cur) . " ";	
-			//récupère les modules concernés par l'action
-			$items = item_expl(item_items($item_cur), " ");
-			//activation des objets
-			for ($i=0; $i<count($items); $i++) activer_module_radio($items[$i], $state);
+			system("php " . CHEMIN . "activer.php on " . $var);
+			$modules .= item_desc($item_cur) . " ";
+		}
+		//ouverture au crépuscule
+		if (item_on($item_cur) == "capteur-crepuscule" && $state == "off") 
+		{
+			system("php " . CHEMIN . "activer.php on " . $var);
+			$modules .= item_desc($item_cur) . " ";
+		}
+		//fermeture à l'aube
+		if (item_off($item_cur) == "capteur-aube" && $state == "on") 
+		{
+			system("php " . CHEMIN . "activer.php on " . $var);
+			$modules .= item_desc($item_cur) . " ";
+		}
+		//fermeture au crépuscule
+		if (item_off($item_cur) == "capteur-crepuscule" && $state == "off") 
+		{
+			system("php " . CHEMIN . "activer.php off " . $var);
+			$modules .= item_desc($item_cur) . " ";
 		}
 	} 
 	if (is_null($modules)) echo "aucun\n";
 	else echo $modules . "\n";
-
 }
-
 ?>
