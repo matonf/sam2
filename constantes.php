@@ -6,6 +6,8 @@ Licence : CC by sa
 //CONSTANTES
 //sécuriser l'accès par login
 define('SECURISER', true);
+//fichiers sans sécurisation
+define('NOLOGIN', 'activer.php cron.php radioReception.php');
 //Numéro WiringPi du pin raspberry branché a l'emetteur radio
 define('PIN', 0);
 //Code télécommande du raspberry (ne doit pas exceder les 2^26)

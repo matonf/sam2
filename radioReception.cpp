@@ -21,6 +21,7 @@ Vous pouvez lancer le programme via la commande :
 RadioPi de Valentin CARRUESCO (Idleman) est mis à disposition selon les termes de la 
 licence Creative Commons Attribution - Partage dans les Mêmes Conditions 3.0 France.
 Les autorisations au-delà du champ de cette licence peuvent être obtenues à idleman@idleman.fr.
+@correctifs : Matthieu ONFRAY http://onfray.info
 */
 
 
@@ -120,11 +121,12 @@ int main (int argc, char** argv)
     }
     pinMode(pin, INPUT);
 	log("Pin GPIO configure en entree");
-    log("Attente d'un signal du transmetteur ...");
 	
 	//On boucle pour ecouter les signaux
-	for(;;)
+	while(true)
     {
+    log("Attente d'un signal du transmetteur ...");
+
     	int i = 0;
 		unsigned long t = 0;
 	    //avant dernier byte reçu
@@ -143,31 +145,40 @@ int main (int argc, char** argv)
 		
 		command = path+" ";
 		t = pulseIn(pin, LOW, 1000000);
-		
-		//Verrou 1
-		while((t < 2200 || t > 3000)){
+	
+
+     // latch 1
+        while((t < 9480 || t > 10350))
+        {       t = pulseIn(pin, LOW, 1000000);
+        }
+
+                log("Verrou 1 detecte");
+	
+		//Verrou 2
+		while((t < 2550 || t > 2700)){
 			t = pulseIn(pin, LOW,1000000);
 		}
-		log("Verrou 1 detecte");
+		log("Verrou 2 detecte");
 		// données
 		while(i < 64)
 		{
 			t = pulseIn(pin, LOW, 1000000);
-			//cout << "t = " << t << endl;
 			
 			//Définition du bit (0 ou 1)
-	        if(t > 180 && t < 420)
+	        	if(t > 200 && t < 380)
 			{
 				bit = 0;
 			}
 			
-	        else if(t > 1280 && t < 1480)
+	        	else if(t > 1000 && t < 1380)
 			{
 				bit = 1;
 			}
 			else
 			{
 				i = 0;
+				log("échec de décodage...");
+				//printf("échec de décodage : t=%d\n",t);
 				break;
 			}
 			
@@ -213,45 +224,35 @@ int main (int argc, char** argv)
 	//Si les données ont bien été détéctées
     if(i>0){
 	
-		log("------------------------------");
 		log("Donnees detectees");
-		cout << "sender " << sender << endl;
 		
 		//on construit la commande qui vas envoyer les parametres au PHP
 		command.append(longToString(sender));
 		if(group)
 		{
 			command.append(" on");
-			cout << "group command" << endl;
 		}
 		else
 		{
 			command.append(" off");
-			cout << "no group" << endl;
 		}
 
 		if(on)
 		{
 			command.append(" on");
-			cout << "on" << endl;
 		}
 		else
 		{
 			command.append(" off");
-			cout << "off" << endl;
 		}
 		command.append(" "+longToString(recipient));
-		cout << "recipient " << recipient << endl;
 		log("Execution de la commande PHP");
 		//Et hop, on envoie tout ça au PHP
+		log(command.c_str());
 		system(command.c_str());
-	}else{
-		log("Aucune donnee...");
 	}
 	
-    	delay(3000);
     }
 	
-	scheduler_standard();
 }
 

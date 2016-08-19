@@ -16,7 +16,7 @@ foreach ($_REQUEST as $key => $val)
 require_once("constantes.php");
 
 //si la sécurisation par login a été demandée (et qu'on a pas lancé via un script)
-if (SECURISER == true && basename($_SERVER['PHP_SELF']) != "activer.php" && basename($_SERVER['PHP_SELF']) != "cron.php") 
+if (SECURISER == true && stripos(basename($_SERVER['PHP_SELF']), NOLOGIN) !== false )
 {
 	require_once("id.php");
 	$autorise = false;
