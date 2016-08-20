@@ -19,7 +19,7 @@ $villes = [ "Lille" => [ 50.6329700, 3.0585800 ] , "Rouen" => [ 49.4431300, 1.09
 // RETENTION DU COOKIE : 1 an
 define('COOKIE_EXPIRE', 365*24*3600);
 //faut-il loguer
-define('LOG', true);
+define('LOG', false);
 //fichier de log
 define('HISTO', 'historique.log');
 //version du logiciel
@@ -42,4 +42,8 @@ define('FOND_NORMAL', '#f8f8f6');
 define('COOKIE_ID', "cookie_sam" . VERSION . "_id");
 //nom du cookie du mot de passe
 define('COOKIE_MDP', "cookie_sam" . VERSION . "_mdp");
+//capteur : mot-clef pour l'aube
+define('AUBE', 'capteur-aube');
+//capteur : mot clef pour le crépuscule
+define('CREPUSCULE', 'capteur-crepuscule');
 ?>
