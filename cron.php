@@ -19,8 +19,8 @@ function creer_ligne_cron($etat, $item, $heure_activation, $periode_activation)
 	}
 	switch ($heure_activation)
 	{
-		//c'est l'option "ne rien faire"
-		case 25 : 
+		//c'est l'option "ne rien faire" ou les commande extérieures via capteur crépusculaire
+		case 25 : case "capteur-crepuscule" : case "capteur-aube" :
 			return; break;
 
 		//minuit devient 23h59 pour le lancement le jour même

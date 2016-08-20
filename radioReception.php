@@ -65,5 +65,6 @@ if ($sender == "9841358" && $interruptor == 9)
 	} 
 	if (is_null($modules)) echo "aucun\n";
 	else echo $modules . "\n";
+	echo "debug: php " . CHEMIN . "activer.php on " . $var;
 }
 ?>

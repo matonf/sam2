@@ -1,6 +1,7 @@
 <html>
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width"/>
 <title>SAM programme ma maison</title>
 <script type="text/javascript">
 function recompte() 

@@ -62,6 +62,7 @@ if (! is_null(GOOGLE_public_siteKey))
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>SAM m'identifie</title>
 <head>
+<meta name="viewport" content="width=device-width"/>
 <body bgcolor="#f9f9f9">
 <form method=post action="?">
 Utilisateur :<br><input type=text name=playerlogin><br>Mot de passe :<br>
