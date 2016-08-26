@@ -73,9 +73,13 @@ if (! empty($_POST))
 	}
 
 	//écriture de la conf personnelle
-	$pointeur_conf = fopen(MA_CONF, "w");
-	fwrite($pointeur_conf, $sto_conf_mamaison);
-	fclose($pointeur_conf);
+	$pointeur_conf = @fopen(MA_CONF, "w");
+	if ($pointeur_conf)
+	{
+		fwrite($pointeur_conf, $sto_conf_mamaison);
+		fclose($pointeur_conf);
+	} else echo "ne peut ouvrir en écriture: " . MA_CONF . "<br>";
+
 	//force le recalcul immédiat de la crontab
 	require("cron.php");
 	//message pour l'utilisateur 

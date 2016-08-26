@@ -13,11 +13,11 @@ licence Creative Commons Attribution - Partage dans les Mêmes Conditions 3.0 Fra
 Les autorisations au-delà du champ de cette licence peuvent être obtenues à idleman@idleman.fr.
 @modif : ONFRAY Matthieu http://onfray.info
 */
-require_once("fonctions.php");
 
+require_once("fonctions.php");
 //charge la conf de l'utilisateur
 $conf_mamaison = charger_conf();
-//Récuperation des parametres du signal sous forme de variables
+//récuperation des paramètres du signal sous forme de variables
 list($file,$sender,$group,$state,$interruptor) = $_SERVER['argv'];
 
 //mon capteur crépusculaire DIO a ces codes...
@@ -28,17 +28,13 @@ if ($sender == "9841358" && $interruptor == 9)
 	if ($state == "on") $moment = "l'aube";
 	else $moment = "le crepuscule";
 	//un peur d'horodatage pour les log
-	echo "Le " . date("d/m/Y") . " a " . $conf_mamaison["ville_utilisateur"] . ", c'est " . $moment .  " a " . date("H:m") . "\n";
-	//liste des modules radio à contacter
-	echo "Activation des modules suivants : ";
+	echo "Le " . date("d/m/Y") . " , c'est " . $moment .  " a " . date("H:i") . "\n";
 	//parcours des items connus
 	foreach($conf_mamaison as $var => $val)
 	{
 		//recherche le motif "itemX" : si on le trouve pas on passe au motif suivant
-		if (! item_valide($var)) continue;
-		//sortie si inexistant
-		if (! isset($conf_mamaison[$var])) break;
-		else $item_cur = $conf_mamaison[$var];
+		if (! isset($conf_mamaison[$var]) || ! item_valide($var)) continue;
+		$item_cur = $conf_mamaison[$var];
 		//si l'item se déclenche au capteur
 		//ouverture à l'aube 
 		if (item_on($item_cur) == AUBE && $state == "on") 
@@ -65,8 +61,7 @@ if ($sender == "9841358" && $interruptor == 9)
 			$modules .= item_desc($item_cur) . " ";
 		}
 	} 
-	if (is_null($modules)) echo "aucun\n";
-	else echo $modules . "\n";
-	echo "debug: php " . CHEMIN . "activer.php on " . $var;
+	//sortie pour les log
+	if (! is_null($modules)) echo "Activation des modules suivants : " . $modules . "\n";
 }
 ?>

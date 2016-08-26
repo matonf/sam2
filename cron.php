@@ -90,9 +90,12 @@ if (! est_en_mode_vacances())
 }
 
 //écrit le fichier crontab de ce jour 
-$pointeur_cron = fopen(CHEMIN . "sam.crontab.aujourdhui", "w");
-fwrite($pointeur_cron, $ligne_cron);
-fclose($pointeur_cron);
+$pointeur_cron = @fopen(CHEMIN . "sam.crontab.aujourdhui", "w");
+if ($pointeur_cron)
+{
+	fwrite($pointeur_cron, $ligne_cron);
+	fclose($pointeur_cron);
+} else echo "ne peut ouvrir en écriture: " . CHEMIN . "sam.crontab.aujourdhui" . "<br>";
 
 //on écrit un peu de bash : on récupère la crontab courante, on retire les anciennes mentions #cronSAM
 $ancienne_crontab = 'cd ' . CHEMIN . ';crontab -l 2>/dev/null|grep -v " #cronSAM">sam.crontab.hier';

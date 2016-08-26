@@ -16,7 +16,7 @@ foreach ($_REQUEST as $key => $val)
 require_once("constantes.php");
 
 //si la sécurisation par login a été demandée (et qu'on a pas lancé via un script)
-if (SECURISER == true && stripos(basename($_SERVER['PHP_SELF']), NOLOGIN) !== false )
+if (SECURISER == true && in_array(basename($_SERVER['PHP_SELF']), $NOLOGIN) == false)
 {
 	require_once("id.php");
 	$autorise = false;
@@ -59,7 +59,7 @@ function activer_mode_vacances($activer=true)
 		if ($activer) 
 		{
 			//on crée un fichier vide
-			$f = fopen(CHEMIN . FIC_VACANCES, "w");
+			$f = @fopen(CHEMIN . FIC_VACANCES, "w");
 			fclose($f);
 		}
 		else unlink(FIC_VACANCES);
@@ -77,11 +77,14 @@ function ecrire_log($texte)
 {
 	if (LOG === false) return false;
 	//écriture de la conf personnelle
-	$pointeur_log = fopen(CHEMIN . HISTO, "a");
-	if (isset($_COOKIE["cookie_sam" . VERSION . "_id"])) $utilisateur = $_COOKIE[COOKIE_ID];
-	else $utilisateur = "l'utilisateur";
-	fwrite($pointeur_log, "Le " . date("d/m/Y à H:i") . ", " . $utilisateur . " " . $texte . PHP_EOL);
-	fclose($pointeur_log);
+	$pointeur_log = @fopen(CHEMIN . HISTO, "a");
+	if ($pointeur_log)
+	{
+		if (isset($_COOKIE["cookie_sam" . VERSION . "_id"])) $utilisateur = $_COOKIE[COOKIE_ID];
+		else $utilisateur = "l'utilisateur";
+		fwrite($pointeur_log, "Le " . date("d/m/Y à H:i") . ", " . $utilisateur . " " . $texte . PHP_EOL);
+		fclose($pointeur_log);
+	} else echo "ne peut ouvrir en lecture: " . CHEMIN . HISTO . "<br>";
 }
 
 //sélectionner un élement dans une liste déroulante
@@ -131,6 +134,12 @@ function creer_liste_jours($nom, $val_utilisateur)
 //ouvrir ou fermer un objet par onde radio
 function activer_module_radio($objet, $etat)
 {
+	//vérifications : les états on ou off
+	if ($etat != "on" && $etat != "off") 
+	{
+		ecrire_log("a tenté de passer l'objet $objet à un état incorrect : $etat");
+		return ;
+	}
 	$commande = CHEMIN . 'radioEmission ' . PIN . ' ' . SENDER . ' ' . $objet . ' ' . $etat;
 	system($commande);
 	ecrire_log("a passé l'objet $objet à $etat");

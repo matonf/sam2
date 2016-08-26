@@ -45,10 +45,14 @@ echo "<br>";
 //ACTION demandée par l'utilisateur
 if ($_GET)
 {
-	//récupère l'élément concerné par l'action
-	$items = item_expl(item_items($conf_mamaison[$_GET["item"]]), " ");
-	//activation des objets en mode manuel : "on" pour les ouvrir et "off" pour les fermer
-	for ($i=0; $i<count($items); $i++) activer_module_radio($items[$i], $_GET['etat']);
+	//traitement si existant
+	if (isset($conf_mamaison[$_GET["item"]]))
+	{
+		//récupère l'élément concerné par l'action
+		$items = item_expl(item_items($conf_mamaison[$_GET["item"]]), " ");
+		//activation des objets en mode manuel : "on" pour les ouvrir et "off" pour les fermer
+		for ($i=0; $i<count($items); $i++) activer_module_radio($items[$i], $_GET['etat']);
+	} else ecrire_log("a tenté de passer à " . $_GET['etat'] . " l'objet inexistant : " . $_GET["item"]);
 }
 
 echo "<a href=\"configurer.php\">Configurer</a><br><br>";
