@@ -142,6 +142,10 @@ function activer_module_radio($objet, $etat)
 	}
 	$commande = CHEMIN . 'radioEmission ' . PIN . ' ' . SENDER . ' ' . $objet . ' ' . $etat;
 	system($commande);
+	//pause de 2/10ème de seconde
+	usleep(200000);
+	//rejoue l'ordre
+	system($commande);
 	ecrire_log("a passé l'objet $objet à $etat");
 }
 

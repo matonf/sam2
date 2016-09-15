@@ -24,10 +24,10 @@ list($file,$sender,$group,$state,$interruptor) = $_SERVER['argv'];
 if ($sender == "9841358" && $interruptor == 9)
 {
 	$modules = null;
-	//$state vaut "off" le soir, "on" le matin
-	if ($state == "on") $moment = "l'aube";
+	//$state vaut "off" le matin
+	if ($state == "off") $moment = "l'aube";
 	else $moment = "le crepuscule";
-	//un peur d'horodatage pour les log
+	//un peu d'horodatage pour les log
 	echo "Le " . date("d/m/Y") . " , c'est " . $moment .  " a " . date("H:i") . "\n";
 	//parcours des items connus
 	foreach($conf_mamaison as $var => $val)
@@ -36,26 +36,25 @@ if ($sender == "9841358" && $interruptor == 9)
 		if (! isset($conf_mamaison[$var]) || ! item_valide($var)) continue;
 		$item_cur = $conf_mamaison[$var];
 		//si l'item se déclenche au capteur
-		//ouverture à l'aube 
-		if (item_on($item_cur) == AUBE && $state == "on") 
+		if (item_on($item_cur) == AUBE && $state == "off") 
 		{
 			system("php " . CHEMIN . "activer.php on " . $var);
 			$modules .= item_desc($item_cur) . " ";
 		}
-		//ouverture au crépuscule
-		if (item_on($item_cur) == CREPUSCULE && $state == "off") 
+
+		if (item_on($item_cur) == CREPUSCULE && $state == "on") 
 		{
 			system("php " . CHEMIN . "activer.php on " . $var);
 			$modules .= item_desc($item_cur) . " ";
 		}
-		//fermeture à l'aube
-		if (item_off($item_cur) == AUBE && $state == "on") 
+
+		if (item_off($item_cur) == AUBE && $state == "off") 
 		{
 			system("php " . CHEMIN . "activer.php off " . $var);
 			$modules .= item_desc($item_cur) . " ";
 		}
-		//fermeture au crépuscule
-		if (item_off($item_cur) == CREPUSCULE && $state == "off") 
+
+		if (item_off($item_cur) == CREPUSCULE && $state == "on") 
 		{
 			system("php " . CHEMIN . "activer.php off " . $var);
 			$modules .= item_desc($item_cur) . " ";

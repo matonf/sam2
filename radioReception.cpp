@@ -63,6 +63,7 @@ void scheduler_realtime() {
 }
 
 //Fonction de remise du programme en temps standard
+
 void scheduler_standard() {
 	struct sched_param p;
 	p.__sched_priority = 0;
@@ -70,6 +71,7 @@ void scheduler_standard() {
 	perror("Failed to switch to normal scheduler.");
 	}
 }
+
 
 //Recuperation du temp (en micro secondes) d'une pulsation
 int pulseIn(int pin, int level, int timeout)
@@ -121,9 +123,9 @@ int main (int argc, char** argv)
     }
     pinMode(pin, INPUT);
 	log("Pin GPIO configure en entree");
-	
+	int continuer = 1;	
 	//On boucle pour ecouter les signaux
-	while(true)
+	while(continuer)
     {
     log("Attente d'un signal du transmetteur ...");
 
@@ -225,7 +227,8 @@ int main (int argc, char** argv)
     if(i>0){
 	
 		log("Donnees detectees");
-		
+		//rend la main au cpu
+		scheduler_standard();
 		//on construit la commande qui vas envoyer les parametres au PHP
 		command.append(longToString(sender));
 		if(group)
@@ -249,7 +252,11 @@ int main (int argc, char** argv)
 		log("Execution de la commande PHP");
 		//Et hop, on envoie tout ça au PHP
 		log(command.c_str());
+		delay(500);
 		system(command.c_str());
+		
+		//sortie car réussite
+		continuer = 0;
 	}
 	
     }
