@@ -81,7 +81,7 @@ function ecrire_log($texte)
 	if ($pointeur_log)
 	{
 		if (isset($_COOKIE["cookie_sam" . VERSION . "_id"])) $utilisateur = $_COOKIE[COOKIE_ID];
-		else $utilisateur = "l'utilisateur";
+		else $utilisateur = "le système";
 		fwrite($pointeur_log, "Le " . date("d/m/Y à H:i") . ", " . $utilisateur . " " . $texte . PHP_EOL);
 		fclose($pointeur_log);
 	} else echo "ne peut ouvrir en lecture: " . CHEMIN . HISTO . "<br>";

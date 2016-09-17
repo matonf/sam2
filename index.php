@@ -27,7 +27,7 @@ afficher_fond_page();
 
 //charge la conf de l'utilisateur
 $conf_mamaison = charger_conf();
-echo "<b>Mode interactif :</b><br>";
+echo "<b>Mode interactif</b><br>";
 //parcours des items connus
 foreach($conf_mamaison as $var => $val)
 {

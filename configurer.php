@@ -6,10 +6,9 @@
 <script type="text/javascript">
 function recompte() 
 {
-	//Recomptage des lignes...
 	var i;
-	// modification numéro de la ligne
-	for (i=1; i < document.getElementById('programmation').rows.length; i++)
+	// ajoute un lien de suppression avec le nouveau numéro de ligne (à partir de la deuxième)
+	for (i=2; i < document.getElementById('programmation').rows.length; i++)
 	{
 		document.getElementById('programmation').rows[i].cells[5].innerHTML = "<a href=\"#null\" title=\"Supprimer\" onClick=\"javascript:supprime(" + i + ");\">[suppr]</a>";
 	}
@@ -126,9 +125,11 @@ foreach($conf_mamaison as $var => $val)
 	creer_liste_jours($var."_jours", item_jours($item_cur));	
 	//suppression
 	$i++;
-	echo "</td><td><a href=\"#null\" title=\"Supprimer\" onClick=\"javascript:supprime(" . $i . ");\">[suppr]</a></td>";
+	echo "</td><td>";
+	//on ne peut pas supprimer la première ligne de conf
+	if ($i>1) echo "<a href=\"#null\" title=\"Supprimer\" onClick=\"javascript:supprime(" . $i . ");\">[suppr]</a>";
 	//fin de la ligne
-	echo "</tr>\n";
+	echo "</td></tr>\n";
 } 
 echo "</table>\n";
 
