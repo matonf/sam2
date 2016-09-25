@@ -28,7 +28,7 @@ void log(string a){
 	//cout << a << endl;
 }
 
-/*
+
 void scheduler_realtime() {
 
 struct sched_param p;
@@ -38,6 +38,7 @@ perror("Failed to switch to realtime scheduler.");
 }
 }
 
+
 void scheduler_standard() {
 
 struct sched_param p;
@@ -46,7 +47,7 @@ if( sched_setscheduler( 0, SCHED_OTHER, &p ) == -1 ) {
 perror("Failed to switch to normal scheduler.");
 }
 }
-*/
+
 
 
 //Envoi d'une pulsation (passage de l'etat haut a l'etat bas)
@@ -180,10 +181,10 @@ int main (int argc, char** argv)
 
 	//url : http://blog.idleman.fr/raspberry-pi-10-commander-le-raspberry-pi-par-radio/
 	//Modifier le programme radioEmission pour désactiver la fonction de priorisation de la tache (scheduler_real_time si mes souvenirs sont bons) et le recompiler
+*/
 
 	scheduler_realtime();
-	*/
-
+	
 	log("Demarrage du programme");
 	pin = atoi(argv[1]);
 	sender = atoi(argv[2]);
@@ -204,7 +205,7 @@ int main (int argc, char** argv)
 	
 	
 	if(onoff=="on"){
-	 //system("/etc/lcd/screen -p \"Radio signal ON...\"");
+
 	 log("envois du signal ON");
 	 for(int i=0;i<5;i++){
 		 transmit(true);            // envoyer ON
@@ -212,7 +213,7 @@ int main (int argc, char** argv)
 	 }
 
 	}else{
-	 //system("/etc/lcd/screen -p \"Radio signal OFF...\"");
+
 	 log("envois du signal OFF");
 	 for(int i=0;i<5;i++){
 		 transmit(false);           // envoyer OFF
@@ -224,6 +225,6 @@ int main (int argc, char** argv)
 
 
 	//Modifier le programme radioEmission pour désactiver la fonction de priorisation de la tache (scheduler_real_time si mes souvenirs sont bons) et le recompiler
-	//scheduler_standard();
+	scheduler_standard();
 }
 

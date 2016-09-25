@@ -32,8 +32,10 @@ define('CHEMIN', '/var/www/sam/');
 define('AFFICHER30', true);
 //accepte un capteur crépusculaire dans la programmation
 define('AFFICHER_CAPTEUR', true);
-//fichier de LOC, du mode vacances
-define('FIC_VACANCES', 'VACANCES');
+//fichier de LOCK du mode vacances
+define('FIC_VACANCES', 'VACANCES.lock');
+//fichier de LOCK du module radio
+define('FIC_LOCK_RADIO', 'RADIO.lock');
 //fond de page du mode vacances
 define('FOND_VACANCES', '#FFFC4F');
 //fond de page normal

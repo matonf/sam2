@@ -62,7 +62,18 @@ function activer_mode_vacances($activer=true)
 			$f = @fopen(CHEMIN . FIC_VACANCES, "w");
 			fclose($f);
 		}
-		else unlink(FIC_VACANCES);
+		else unlink(CHEMIN . FIC_VACANCES);
+}
+
+function activer_lock_radio($activer=true)
+{
+		if ($activer) 
+		{
+			//on crée un fichier vide
+			$f = @fopen(CHEMIN . FIC_LOCK_RADIO, "w");
+			fclose($f);
+		}
+		else unlink(CHEMIN . FIC_LOCK_RADIO);
 }
 
 //change la couleur du fond de page selon le mode vacances
@@ -82,7 +93,7 @@ function ecrire_log($texte)
 	{
 		if (isset($_COOKIE["cookie_sam" . VERSION . "_id"])) $utilisateur = $_COOKIE[COOKIE_ID];
 		else $utilisateur = "le système";
-		fwrite($pointeur_log, "Le " . date("d/m/Y à H:i") . ", " . $utilisateur . " " . $texte . PHP_EOL);
+		fwrite($pointeur_log, "Le " . date("d/m/Y à H:i:s") . ", " . $utilisateur . " " . $texte . PHP_EOL);
 		fclose($pointeur_log);
 	} else echo "ne peut ouvrir en lecture: " . CHEMIN . HISTO . "<br>";
 }
@@ -140,12 +151,30 @@ function activer_module_radio($objet, $etat)
 		ecrire_log("a tenté de passer l'objet $objet à un état incorrect : $etat");
 		return ;
 	}
+	//prépare la commande radio
 	$commande = CHEMIN . 'radioEmission ' . PIN . ' ' . SENDER . ' ' . $objet . ' ' . $etat;
+	//compteur de tentatives
+	$cpt = 10;
+	//pour gérer les exécutions concurentielles
+	while (file_exists(CHEMIN . FIC_LOCK_RADIO))
+	{
+		sleep(1);
+		ecrire_log("a patienté une seconde à cause du lock radio ($objet, $etat)");
+		$cpt--;
+		//on sort au bout de 10 essais
+		if ($cpt == 0)
+		{
+			activer_lock_radio(false);
+			ecrire_log("a supprimé de force le fichier de lock radio ($objet, $etat)");
+			break;
+		}
+	}
+	activer_lock_radio(true);
+	//on lance la commande radio
 	system($commande);
-	//pause de 2/10ème de seconde
-	//usleep(200000);
-	//rejoue l'ordre
+	//rejoue la commande pour augmenter les chances
 	system($commande);
+	activer_lock_radio(false);
 	ecrire_log("a passé l'objet $objet à $etat");
 }
 
