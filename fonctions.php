@@ -172,6 +172,8 @@ function activer_module_radio($objet, $etat)
 	activer_lock_radio(true);
 	//on lance la commande radio
 	system($commande);
+	// attente de 275µs entre les deux envois
+ 	usleep(275);
 	//rejoue la commande pour augmenter les chances
 	system($commande);
 	activer_lock_radio(false);
