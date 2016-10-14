@@ -154,18 +154,18 @@ function activer_module_radio($objet, $etat)
 	//prépare la commande radio
 	$commande = CHEMIN . 'radioEmission ' . PIN . ' ' . SENDER . ' ' . $objet . ' ' . $etat;
 	//compteur de tentatives
-	$cpt = 10;
+	$cpt = 1;
 	//pour gérer les exécutions concurentielles
 	while (file_exists(CHEMIN . FIC_LOCK_RADIO))
 	{
 		sleep(1);
-		ecrire_log("a patienté une seconde à cause du lock radio ($objet, $etat)");
-		$cpt--;
+		ecrire_log("a patienté $cpt seconde(s) à cause du lock radio (passage de $objet à $etat)");
+		$cpt++;
 		//on sort au bout de 10 essais
-		if ($cpt == 0)
+		if ($cpt == 20)
 		{
 			activer_lock_radio(false);
-			ecrire_log("a supprimé de force le fichier de lock radio ($objet, $etat)");
+			ecrire_log("a supprimé de force le fichier de lock radio (passage de $objet à $etat)");
 			break;
 		}
 	}
