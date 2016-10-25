@@ -161,13 +161,8 @@ function activer_module_radio($objet, $etat)
 		sleep(1);
 		ecrire_log("a patienté $cpt seconde(s) à cause du lock radio (passage de $objet à $etat)");
 		$cpt++;
-		//on sort au bout de 10 essais
-		if ($cpt == 20)
-		{
-			activer_lock_radio(false);
-			ecrire_log("a supprimé de force le fichier de lock radio (passage de $objet à $etat)");
-			break;
-		}
+		//on sort au bout de 20 essais
+		if ($cpt == 20)	break;
 	}
 	activer_lock_radio(true);
 	//on lance la commande radio
@@ -176,6 +171,7 @@ function activer_module_radio($objet, $etat)
  	usleep(275);
 	//rejoue la commande pour augmenter les chances
 	system($commande);
+	//supprime le verrou
 	activer_lock_radio(false);
 	ecrire_log("a passé l'objet $objet à $etat");
 }
