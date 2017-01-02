@@ -12,7 +12,19 @@ $etat=$argv[1];
 //argument incohérent (injection ?) : on sort
 if (! isset($conf_mamaison[$argv[2]])) exit();
 $tab_items=explode(' ', item_items($conf_mamaison[$argv[2]]));
-//prépare une pause en fonction du numéro du premier item dans le but de diminuer les collissions avec d'autres process en parralèle
+//préparation d'une notification pour le téléphone avec pushbullet
+if (NOTIF_PORTABLE)
+{
+	$titre = "SAM m'informe";
+	if ($etat == "off") $ordre = texte_off(item_desc($conf_mamaison[$argv[2]]));
+	else $ordre = texte_on(item_desc($conf_mamaison[$argv[2]]));
+	$texte = "SAM va " . $ordre . " " . strtolower(item_desc($conf_mamaison[$argv[2]]));
+	//on lance la commande pushbullet
+	system(CHEMIN . 'pushbullet.sh "' . $texte . '" "' . $titre . '"');
+	sleep(10);
+}
+
+//prépare une pause en fonction du numéro du premier item dans le but de diminuer les collissions avec d'autres process en parrallèle
 $passe = false;
 //active tous les modules un par un
 foreach($tab_items as $item)
