@@ -43,6 +43,9 @@ Un fichier de votre conf est créé par le programme (droits d'écriture nécess
 Le lever et le coucher du soleil sont calculés selon la ville choisie dans la liste déroulante. Sélectionnez la plus proche de vous, j'ai retenu les nouvelles capitales de région (Bordeaux, Rouen, Lyon, etc). Par défaut c'est Rouen.
 Si vous déménagez loin, il est logique de retourner choisir la nouvellle ville la plus proche.
 
+Sécurisation : définissez votre coiple clef publique/privée Google pour reCaptcha dans id.php et ainsi le login utilisera cette fonction anti robot par Google
+Personnalisation : utilisez votre smartphone pour recevoir les notifications de SAM ! Ajoutez votre clef privée dans le fichier pushbullet.sh
+
 4) Ressources et inspirations
 
 Radio et pi :
@@ -52,6 +55,7 @@ http://blog.idleman.fr/raspberry-pi-12-allumer-des-prises-distance/
 http://wiringpi.com/download-and-install/
 http://playground.arduino.cc/Code/HomeEasy
 http://homeeasyhacking.wikia.com/wiki/Home_Easy_Hacking_Wiki
+https://learnraspi.com/2016/04/12/get-notifications-raspberry-pi-pushbullet/
 
 Serveur web Nginx :
 https://doc.ubuntu-fr.org/nginx
