@@ -67,6 +67,7 @@ http://wiringpi.com/download-and-install/
 http://playground.arduino.cc/Code/HomeEasy
 http://homeeasyhacking.wikia.com/wiki/Home_Easy_Hacking_Wiki
 https://learnraspi.com/2016/04/12/get-notifications-raspberry-pi-pushbullet/
+https://gladysproject.com/fr/article/connecter-un-arduino-au-raspberry-pi
 
 Serveur web Nginx :
 https://doc.ubuntu-fr.org/nginx
