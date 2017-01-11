@@ -13,10 +13,11 @@ SAM pour Système Autonome de Maison est un projet d'amusement open-source combi
 - modules radio récepteurs DIO chacon pour piloter vos équipements (volets, lampes, etc.) qu'on peut acheter sur Internet ou en boutiques de bricolage comme Leroy Merluche
 - SAM installé et configuré dans un répertoire de votre serveur web (/var/www/sam idéalement sinon il faut changer le chemin dans constantes.php)
 - récepteur radio 433Mhz connecté sur l'ordinateur + capteur crépusculaire DIO (fonction protoypée, non opérationnelle à ce jour)
-- un smartphone et PushBuket installé (optionnel) pour recevoir gratuitement des notifications de l'application (ex : "SAM va ouvrir les volets du ssalon") 
+- un smartphone et PushBullet installé (optionnel) pour recevoir gratuitement des notifications de l'application (ex : "SAM va ouvrir les volets du salon") 
 
 2) Installation
 Déposer le dossier sam dans votre /var/www
+Il vous faut préalablement installer et configurer nginx of course.
 
 Donner les droits d'éxécution sur le binaire radioEmission (sudo chown root:www-data /var/www/sam/radioEmission
 puis un sudo chmod 4777 radioEmission) sinon l'interface web ne fonctionnera pas !
