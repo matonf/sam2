@@ -56,6 +56,8 @@ Un fichier de votre conf est créé par le programme (droits d'écriture nécess
 Le lever et le coucher du soleil sont calculés selon la ville choisie dans la liste déroulante. Sélectionnez la plus proche de vous, j'ai retenu les nouvelles capitales de région (Bordeaux, Rouen, Lyon, etc). Par défaut c'est Rouen.
 Si vous déménagez loin, il est logique de retourner choisir la nouvellle ville la plus proche.
 
+Nouveauté : la géolocalisation. Déroulez la liste des villes, sélectionnez "Géolocalisée" puis cliquez sur le bouton "Géolocalise-moi". Acceptez la demande de géolocalisation : un message vous indique que vous avez été trouvé. Enrgistrez: vos coordonnées sont stockées, vous n'aurez plus jamais besoin de vous géolocaliser sauf si vous déménagez bin sûr.
+
 
 4) Ressources et inspirations
 

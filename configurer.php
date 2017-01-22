@@ -34,6 +34,13 @@ function ajoute()
 	}
 	recompte();
 }
+
+function afficheBouton()
+{
+	if (document.getElementById('ville').value == "Géolocalisée") document.getElementById('boutonloc').style.visibility="visible";
+	else document.getElementById('boutonloc').style.visibility="hidden";
+}
+
 </script>
 </head>
 <?php 
@@ -42,8 +49,8 @@ Par Matthieu ONFRAY (http://www.onfray.info)
 Licence : CC by sa
 */
 require_once("fonctions.php");
-afficher_fond_page();
- 
+afficher_fond_page("onload=\"afficheBouton()\"");
+
 //charge la conf de l'utilisateur
 $conf_mamaison = charger_conf();
 //récupère les nouveaux paramètres du formulaire et les stocke dans des fichiers sur disque
@@ -53,7 +60,11 @@ if (! empty($_POST))
 	if ($_POST["ville_utilisateur"] != $conf_mamaison["ville_utilisateur"]) ecrire_log("a changé sa ville de référence : " . $_POST["ville_utilisateur"]);
 	
 	//stockage de la conf dans une variable
-	$sto_conf_mamaison = "ville_utilisateur=" . $_POST["ville_utilisateur"] . "\n";
+	$sto_conf_mamaison = "ville_utilisateur = \"" . $_POST["ville_utilisateur"] . "\"\n";
+	
+	//ajout des coordonnées géographiques si l'utilisateur s'est géolocalisé
+	//if ($_POST["ville_utilisateur"] == "Géolocalisée") 
+	$sto_conf_mamaison .= "coord_utilisateur = \"" . $_POST["latitude"]. "," . $_POST["longitude"]  . "\"\n";
 	//reprend la numérotation des items dans le fichier de conf
 	$i = 0;
 	//parcours des POST trouvés
@@ -61,7 +72,7 @@ if (! empty($_POST))
 	{
 		//recherche le motif "itemX" : si on le trouve pas on passe au motif suivant
 		if (! item_valide($var)) continue;
-		//prépare les vaiables
+		//prépare les variables
 		$varon = $var . "_on";
 		$varoff = $var . "_off";
 		$varjours = $var . "_jours";
@@ -93,13 +104,36 @@ echo "\n<form name=mamaison method=post>";
 ksort($villes);
 //on doit demander la ville proche de l'utilisateur
 echo "<b>Ma localisation</b><br>Choisissez la ville la plus proche :<br>";
-echo "<form method=post><select name='ville_utilisateur'>\n";
+echo "<form method=post><select onChange=\"afficheBouton()\" id='ville' name='ville_utilisateur'>\n";
 foreach ($villes as $clef => $valeur) echo "<option" . marquer_champs($clef, $conf_mamaison["ville_utilisateur"]) . ">" . $clef . "</option>\n";
-echo "</select>";
+echo "</select> <button id=\"boutonloc\" type=button onclick=\"getLocation()\">Géolocalise-moi</button><p id=\"messageloc\"></p>\n";
+$tab_c = explode(",", $conf_mamaison["coord_utilisateur"]);
+$latitude = $tab_c[0];
+$longitude = $tab_c[1];
+echo "<input type=\"hidden\" name=\"latitude\" id=\"latitude\" value=\"$latitude\"> <input type=\"hidden\" name=\"longitude\" id=\"longitude\" value=\"$longitude\"> ";
+?>
+<div id="mapholder"></div>
+<script>
+var x = document.getElementById("messageloc");
 
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else { 
+        x.innerHTML = "La géolocation ne fonctionne pas avec votre navigateur.";
+    }
+}
+
+function showPosition(position) {
+    x.innerHTML = "Vous avez été localisé ! Vous pouvez enregistrer.";
+	document.getElementById("latitude").value = position.coords.latitude;
+	document.getElementById("longitude").value = position.coords.longitude;
+}
+</script>
+<?php
 //LISTE DES ITEMS
 //on doit afficher les items connus
-echo "<br><br><b>Mes règles</b> <a href=\"#null\" title=\"Ajouter\" onClick=\"javascript:ajoute();\">+ajouter une règle</a>";
+echo "<br><b>Mes règles</b> <a href=\"#null\" title=\"Ajouter\" onClick=\"javascript:ajoute();\">+ajouter une règle</a>";
 echo "<table id=\"programmation\">";
 echo "<tr id=\"pres\"><td>Nom</td><td>Modules</td><td>Ouverture</td><td>Fermeture</td><td>Activation</td><td></td></td></tr>\n";
 $i = 0;

@@ -35,10 +35,19 @@ function creer_ligne_cron($etat, $item, $heure_activation, $periode_activation)
 			//jour du mois
 			$jour = date("j");
 			//mois de l'année
-			$mois = date("n");			
-			//récupération des coordonnées de la ville choisie
-			$latitude = $villes[$conf_mamaison["ville_utilisateur"]][0];
-			$longitude = $villes[$conf_mamaison["ville_utilisateur"]][1];
+			$mois = date("n");		
+			//récupération des coordonnées de la ville choisie dans la liste
+			if ($conf_mamaison["ville_utilisateur"] != "Géolocalisée")
+			{
+				$latitude = $villes[$conf_mamaison["ville_utilisateur"]][0];
+				$longitude = $villes[$conf_mamaison["ville_utilisateur"]][1];
+			}
+			else //géolocalisée
+			{
+				$tab_c = explode(",", $conf_mamaison["coord_utilisateur"]);
+				$latitude = $tab_c[0];
+				$longitude = $tab_c[1];
+			}
 
 			//calcul de l'horaire solaire pour la France (GMT+2)
 			if ($heure_activation == "autol") $slaire = date_sunrise(mktime(1,1,1, $mois, $jour) , SUNFUNCS_RET_STRING, $latitude, $longitude, 90, 2);
