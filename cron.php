@@ -49,9 +49,9 @@ function creer_ligne_cron($etat, $item, $heure_activation, $periode_activation)
 				$longitude = $tab_c[1];
 			}
 
-			//calcul de l'horaire solaire pour la France (GMT+2)
-			if ($heure_activation == "autol") $slaire = date_sunrise(mktime(1,1,1, $mois, $jour) , SUNFUNCS_RET_STRING, $latitude, $longitude, 90, 2);
-			if ($heure_activation == "autoc") $slaire = date_sunset(mktime(1,1,1, $mois, $jour), SUNFUNCS_RET_STRING, $latitude, $longitude, 90, 2);
+			//calcul de l'horaire solaire pour la France (GMT+1)
+			if ($heure_activation == "autol") $slaire = date_sunrise(mktime(1,1,1, $mois, $jour) , SUNFUNCS_RET_STRING, $latitude, $longitude, 90, 1);
+			if ($heure_activation == "autoc") $slaire = date_sunset(mktime(1,1,1, $mois, $jour), SUNFUNCS_RET_STRING, $latitude, $longitude, 90, 1);
 			$heure_tab = explode(":", $slaire);
 			//formatage des données pour la cron
 			$heure = $heure_tab[0];
