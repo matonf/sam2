@@ -27,6 +27,34 @@ afficher_fond_page();
 
 //charge la conf de l'utilisateur
 $conf_mamaison = charger_conf();
+//fixe les dates en FR
+setlocale (LC_TIME, 'fr_FR.utf8','fra'); 
+
+//récupère les cordonnées géopgraphiques
+//récupération des coordonnées de la ville choisie dans la liste
+if ($conf_mamaison["ville_utilisateur"] != "Géolocalisée")
+{
+	$latitude = $villes[$conf_mamaison["ville_utilisateur"]][0];
+	$longitude = $villes[$conf_mamaison["ville_utilisateur"]][1];
+}
+else //géolocalisée
+{
+	$tab_c = explode(",", $conf_mamaison["coord_utilisateur"]);
+	$latitude = $tab_c[0];
+	$longitude = $tab_c[1];
+}
+
+//affiche quelques infos en home
+echo "Bienvenue !<br><br>\n<b>Informations</b><br>\n";
+echo "Nous sommes le " . strftime("%A %d %B") . ".<br>\n";
+$mois = date("m");
+$jour = date("d");
+$lever_solaire = date_sunrise(mktime(1,1,1, $mois, $jour) , SUNFUNCS_RET_STRING, $latitude, $longitude, 90,1+date("I"));			
+$coucher_solaire = date_sunset(mktime(1,1,1, $mois, $jour), SUNFUNCS_RET_STRING, $latitude, $longitude, 90, 1+date("I"));
+
+echo "Le soleil se lève à $lever_solaire et se couche à $coucher_solaire.<br><br>\n";
+
+
 echo "<b>Mode interactif</b><br>";
 //parcours des items connus
 foreach($conf_mamaison as $var => $val)

@@ -50,8 +50,8 @@ function creer_ligne_cron($etat, $item, $heure_activation, $periode_activation)
 			}
 
 			//calcul de l'horaire solaire pour la France (GMT+1)
-			if ($heure_activation == "autol") $slaire = date_sunrise(mktime(1,1,1, $mois, $jour) , SUNFUNCS_RET_STRING, $latitude, $longitude, 90, 1);
-			if ($heure_activation == "autoc") $slaire = date_sunset(mktime(1,1,1, $mois, $jour), SUNFUNCS_RET_STRING, $latitude, $longitude, 90, 1);
+			if ($heure_activation == "autol") $slaire = date_sunrise(mktime(1,1,1, $mois, $jour) , SUNFUNCS_RET_STRING, $latitude, $longitude, 90, 1+date("I"));
+			if ($heure_activation == "autoc") $slaire = date_sunset(mktime(1,1,1, $mois, $jour), SUNFUNCS_RET_STRING, $latitude, $longitude, 90, 1+date("I"));
 			$heure_tab = explode(":", $slaire);
 			//formatage des données pour la cron
 			$heure = $heure_tab[0];
