@@ -50,7 +50,7 @@ ecrire_log("a visité la page ". basename($_SERVER['PHP_SELF']));
 //est-on en mode vacances ?
 function est_en_mode_vacances()
 {
-	return file_exists(FIC_VACANCES);
+	return file_exists(CHEMIN . FIC_VACANCES);
 }
 
 //active ou déasctive le mode vacances
@@ -60,9 +60,9 @@ function activer_mode_vacances($activer=true)
 		{
 			//on crée un fichier vide
 			$f = @fopen(CHEMIN . FIC_VACANCES, "w");
-			fclose($f);
+			@fclose($f);
 		}
-		else unlink(CHEMIN . FIC_VACANCES);
+		else @unlink(CHEMIN . FIC_VACANCES);
 }
 
 function activer_lock_radio($activer=true)
@@ -74,13 +74,6 @@ function activer_lock_radio($activer=true)
 			@fclose($f);
 		}
 		else @unlink(CHEMIN . FIC_LOCK_RADIO);
-}
-
-//change la couleur du fond de page selon le mode vacances
-function afficher_fond_page($fonction=null)
-{
-	if (est_en_mode_vacances()) echo "<body $fonction bgcolor=\"" . FOND_VACANCES . "\">";
-	else echo "<body $fonction bgcolor=\"" . FOND_NORMAL . "\">";
 }
 
 //log les événements
@@ -167,8 +160,8 @@ function activer_module_radio($objet, $etat)
 	activer_lock_radio(true);
 	//on lance la commande radio
 	system($commande);
-	// attente de 275µs entre les deux envois
- 	usleep(275);
+	// attente entre les deux envois
+ 	usleep(900);
 	//rejoue la commande pour augmenter les chances
 	system($commande);
 	//supprime le verrou

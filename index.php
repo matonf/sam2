@@ -3,27 +3,36 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width"/>
 <title>SAM pilote ma maison</title>
+<link rel="stylesheet" href="sam.css" type="text/css" />
+
+<!-- define la function pour le mode vacances -->
+     <script language="javascript">
+        function mode_vacances(item){
+		var vacances = 0;
+		if (item.checked) vacances = 1;
+		document.location.href = "?vacances=" + vacances;
+        }
+     </script>
+
 </head>
+<body>
+
 <?php
 /*
 Par Matthieu ONFRAY (http://www.onfray.info)
 Licence : CC by sa
+source pour le bouton interrupteur : https://proto.io/freebies/onoff/
 */
 require_once("fonctions.php");
 
-if (isset($_POST["vacances"]))
+if (isset($_GET["vacances"]))
 {
-	ecrire_log("a demandé à " . $_POST["vacances"]);
-	switch ($_POST["vacances"])
-	{
-		case "passer en mode vacances" : activer_mode_vacances(); break;
-		case "sortir du mode vacances" : activer_mode_vacances(false); break;
-	}
+	ecrire_log("a passé le mode vacances à " . $_GET["vacances"]);
+	activer_mode_vacances($_GET["vacances"]);
 	//force le recalcul immédiat de la crontab
 	require("cron.php");
 }
 
-afficher_fond_page();
 
 //charge la conf de l'utilisateur
 $conf_mamaison = charger_conf();
@@ -84,8 +93,13 @@ if ($_GET)
 }
 
 echo "<a href=\"configurer.php\">Configurer</a><br><br>";
-if (est_en_mode_vacances()) echo "<form method=post><input type=submit name=vacances value=\"sortir du mode vacances\"></form>";
-else echo "<form method=post><input type=submit name=vacances value=\"passer en mode vacances\"></form>";
 ?>
+Mode vacances <div class="onoffswitch">
+        <input onchange="mode_vacances(this)" type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="mode_vacances" <?php if (est_en_mode_vacances()) echo "checked"; ?>>
+        <label class="onoffswitch-label" for="mode_vacances">
+            <span class="onoffswitch-inner"></span>
+            <span class="onoffswitch-switch"></span>
+        </label>
+    </div>
   </body>
 </html>

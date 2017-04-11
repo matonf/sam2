@@ -43,13 +43,14 @@ function afficheBouton()
 
 </script>
 </head>
+<body onload="afficheBouton()">
+
 <?php 
 /*
 Par Matthieu ONFRAY (http://www.onfray.info)
 Licence : CC by sa
 */
 require_once("fonctions.php");
-afficher_fond_page("onload=\"afficheBouton()\"");
 
 //charge la conf de l'utilisateur
 $conf_mamaison = charger_conf();
