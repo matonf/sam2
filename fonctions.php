@@ -161,7 +161,7 @@ function activer_module_radio($objet, $etat)
 	//on lance la commande radio
 	system($commande);
 	// attente entre les deux envois
- 	usleep(900);
+ 	usleep(1000);
 	//rejoue la commande pour augmenter les chances
 	system($commande);
 	//supprime le verrou

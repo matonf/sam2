@@ -7,9 +7,10 @@
 
 <!-- define la function pour le mode vacances -->
      <script language="javascript">
-        function mode_vacances(item){
+        function mode_vacances()
+	{
 		var vacances = 0;
-		if (item.checked) vacances = 1;
+		if (document.getElementById("mode_vacances").checked) vacances = 1;
 		document.location.href = "?vacances=" + vacances;
         }
      </script>
@@ -95,7 +96,7 @@ if ($_GET)
 echo "<a href=\"configurer.php\">Configurer</a><br><br>";
 ?>
 Mode vacances <div class="onoffswitch">
-        <input onchange="mode_vacances(this)" type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="mode_vacances" <?php if (est_en_mode_vacances()) echo "checked"; ?>>
+        <input onclick="setTimeout(mode_vacances, 1000)" type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="mode_vacances" <?php if (est_en_mode_vacances()) echo "checked"; ?>>
         <label class="onoffswitch-label" for="mode_vacances">
             <span class="onoffswitch-inner"></span>
             <span class="onoffswitch-switch"></span>
