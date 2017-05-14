@@ -5,8 +5,7 @@ Licence : CC by sa
 
 SAM pour Système Autonome de Maison est un projet d'amusement open-source combinant un peu de code, un peu d'électronique afin d'automatiser des équipements privés : lampes, volets, etc. branchés sur des modules à ondes (type Chacon DIO). Ce mini-projet de domotique use du PHP, du Javascript, un peu de shell...
 
-1) Pré-reqis
-==
+# 1) Pré-requis
 Il vous faut un :
 - ordinateur sous linux (PC/Raspberry pi/autre), le pi est idéal pour ce projet, même une version très ancienne ou la moins puissante le Zero. Mon système configuré en serveur, n'utilise que 90 Mo de ram tout compris (Debian, serveur web, autres...) et 0% du CPU de mon Raspberry Pi 2 (quad core certes).
 - serveur Web (Apache/Nginx/autre), j'utilise Nginx pour sa légèreté
