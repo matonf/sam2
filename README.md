@@ -7,7 +7,7 @@ SAM pour Système Autonome de Maison est un projet d'amusement open-source combi
 
 ### Pré-requis
 Il vous faut un :
-- ordinateur sous linux (PC/Raspberry pi/autre), le pi est idéal pour ce projet, même une version très ancienne ou la moins puissante le Zero. Mon système configuré en serveur, n'utilise que 90 Mo de ram tout compris (Debian, serveur web, autres...) et 0% du CPU de mon Raspberry Pi 2 (quad core certes).
+- ordinateur sous linux (PC/Raspberry pi/autre), le pi est idéal pour ce projet, même une version très ancienne ou la moins puissante comme le Zero. Mon système configuré en serveur, n'utilise que 90 Mo de RAM tout compris (Debian, serveur web, autres...) et 0% du CPU de mon Raspberry Pi 0.
 - serveur Web (Apache/Nginx/autre), j'utilise Nginx pour sa légèreté
 - PHP 5 et supérieur (on est 7 mais sur ma Debien Jessie j'en suis au 5)
 - émetteur radio 433Mhz connecté sur l'ordinateur (1 euro environ sur Amazon)
@@ -22,7 +22,7 @@ Il vous faut préalablement installer et configurer nginx of course.
 
 Donner les droits d'éxécution sur le binaire radioEmission (sudo chown root:www-data /var/www/sam/radioEmission puis un sudo chmod 4777 radioEmission) sinon l'interface web ne fonctionnera pas !
 
-Ajouter dans la crontab le lancement chaque nuit à 1h00 du script cron.php pour un utilisateur du système (www-data)
+Ajouter dans la crontab le lancement chaque nuit à 1h00 du script cron.php pour un utilisateur du système (www-data).
 
 Exemple de ligne :   
 0 1 * * * php /var/www/sam/cron.php #exécution nocturne de sam :)
