@@ -5,7 +5,7 @@ Licence : CC by sa
 
 SAM pour Système Autonome de Maison est un projet d'amusement open-source combinant un peu de code, un peu d'électronique afin d'automatiser des équipements privés : lampes, volets, etc. branchés sur des modules à ondes (type Chacon DIO). Ce mini-projet de domotique use du PHP, du Javascript, un peu de shell...
 
-# 1) Pré-requis
+### Pré-requis
 Il vous faut un :
 - ordinateur sous linux (PC/Raspberry pi/autre), le pi est idéal pour ce projet, même une version très ancienne ou la moins puissante le Zero. Mon système configuré en serveur, n'utilise que 90 Mo de ram tout compris (Debian, serveur web, autres...) et 0% du CPU de mon Raspberry Pi 2 (quad core certes).
 - serveur Web (Apache/Nginx/autre), j'utilise Nginx pour sa légèreté
@@ -16,8 +16,7 @@ Il vous faut un :
 - récepteur radio 433Mhz connecté sur l'ordinateur + capteur crépusculaire DIO (fonction protoypée, non opérationnelle à ce jour)
 - un smartphone et PushBullet installé (optionnel) pour recevoir gratuitement des notifications de l'application (ex : "SAM va ouvrir les volets du salon") 
 
-2) Installation  
-==
+### Installation  
 Déposer le dossier sam dans votre /var/www  
 Il vous faut préalablement installer et configurer nginx of course.
 
@@ -39,8 +38,7 @@ Si vous voulez pouvoir choisir les demi-heures dans les heures de programmation,
 Si vous voulez pouvoir recevoir les ondes radio d'un capteur DIO, dans constantes.php mettez à true la constante AFFICHER_CAPTEUR <- pas encore opérationnel,ça m'est réservé, je dois finir le code.
 
 
-3) Utilisation  
-==
+### Utilisation  
 Connexion :   
 L'interface web se trouvera sur http://ip-de-votre-serveur/sam (ou autre selon la conf du serveur web).
 Vous vous connectez avec votre utilisateur (à régler dans id.php avec un éditeur de texte) ou sans vous connecter (mettre sécurisation à false dans constantes.php avec votre éditeur de texte). En cas de connexion sécurisée, un cookie est déposé pour un an sur votre client pour éviter de vous reloguer à chaque fois.
@@ -61,8 +59,7 @@ Si vous déménagez loin, il est logique de retourner choisir la nouvellle ville
 Nouveauté : la géolocalisation. Déroulez la liste des villes, sélectionnez "Géolocalisée" puis cliquez sur le bouton "Géolocalise-moi". Acceptez la demande de géolocalisation : un message vous indique que vous avez été trouvé. Enrgistrez: vos coordonnées sont stockées, vous n'aurez plus jamais besoin de vous géolocaliser sauf si vous déménagez bin sûr.
 
 
-4) Ressources et inspirations
-==
+### Ressources et inspirations
 Radio et pi :
 * http://blog.idleman.fr/raspberry-pi-08-jouer-avec-les-ondes-radio/
 * http://blog.idleman.fr/raspberry-pi-10-commander-le-raspberry-pi-par-radio/
