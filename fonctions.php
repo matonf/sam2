@@ -209,17 +209,25 @@ function item_jours($texte)
 }
 
 //des libellés dynamiques en fonction des noms de groupes
-function texte_on($texte)
+function texte_on($texte, $lang="icon")
 {
-	if (stripos($texte, "volet") !== false || stripos($texte, "store") !== false) return "ouvrir";
-	if (stripos($texte, "lampe") !== false) return "allumer";
+	$volets = [ "icon" => "<font color=lime>&uarr;</font>" , "fr" => "ouvrir" ];
+	$lampes = [ "icon" => "<font color=yellow>&Omicron;</font>", "fr" => "allumer" ];
+	//ouverture
+	if (stripos($texte, "volet") !== false || stripos($texte, "store") !== false) return $volets[$lang];
+	//allumage
+	if (stripos($texte, "lampe") !== false) return $lampes[$lang];
 	return "on";
 }
 
-function texte_off($texte)
+function texte_off($texte, $lang="icon")
 {
-	if (stripos($texte, "volet") !== false || stripos($texte, "store") !== false) return "fermer";
-	if (stripos($texte, "lampe") !== false) return "éteindre";
+	$volets = [ "icon" => "&darr;" , "fr" => "fermer" ];
+	$lampes = [ "icon" => "&Oslash;" , "fr" => "éteindre" ];
+	//fermeture
+	if (stripos($texte, "volet") !== false || stripos($texte, "store") !== false) return $volets[$lang];
+	//extinction
+	if (stripos($texte, "lampe") !== false) return $lampes[$lang];
 	return "off";
 }
 

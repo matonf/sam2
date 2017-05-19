@@ -16,8 +16,8 @@ $tab_items=explode(' ', item_items($conf_mamaison[$argv[2]]));
 if (NOTIF_PORTABLE)
 {
 	$titre = "SAM m'informe";
-	if ($etat == "off") $ordre = texte_off(item_desc($conf_mamaison[$argv[2]]));
-	else $ordre = texte_on(item_desc($conf_mamaison[$argv[2]]));
+	$fonction_texte = "texte_" . $etat;
+	$ordre = $fonction_texte(item_desc($conf_mamaison[$argv[2]]), "fr");
 	$texte = "SAM va " . $ordre . " " . strtolower(item_desc($conf_mamaison[$argv[2]]));
 	//on lance la commande pushbullet
 	system(CHEMIN . 'pushbullet.sh "' . $texte . '" "' . $titre . '"');

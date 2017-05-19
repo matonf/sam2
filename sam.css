@@ -1,5 +1,10 @@
+/* css pour le bouton du mode vacances */
+.enligne {
+	display: inline;
+}
+/* source pour le bouton interrupteur : https://proto.io/freebies/onoff/ */
     .onoffswitch {
-        position: relative; width: 105px;
+        position: relative; width: 48px;
         -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
     }
     .onoffswitch-checkbox {
@@ -7,21 +12,21 @@
     }
     .onoffswitch-label {
         display: block; overflow: hidden; cursor: pointer;
-        border: 2px solid #999999; border-radius: 50px;
+        border: 2px solid #999999; border-radius: 42px;
     }
     .onoffswitch-inner {
         display: block; width: 200%; margin-left: -100%;
         transition: margin 0.3s ease-in 0s;
     }
     .onoffswitch-inner:before, .onoffswitch-inner:after {
-        display: block; float: left; width: 50%; height: 45px; padding: 0; line-height: 45px;
+        display: block; float: left; width: 50%; height: 12px; padding: 0; line-height: 12px;
         font-size: 14px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
         box-sizing: border-box;
     }
     .onoffswitch-inner:before {
         content: "";
         padding-left: 10px;
-        background-color: #EEEEEE; color: #FFFFFF;
+        background-color: #49EB51; color: #FFFFFF;
     }
     .onoffswitch-inner:after {
         content: "";
@@ -30,11 +35,11 @@
         text-align: right;
     }
     .onoffswitch-switch {
-        display: block; width: 39px; margin: 3px;
-        background: #A1A1A1;
+        display: block; width: 18px; margin: -3px;
+        background: #FFFFFF;
         position: absolute; top: 0; bottom: 0;
-        right: 56px;
-        border: 2px solid #999999; border-radius: 50px;
+        right: 32px;
+        border: 2px solid #999999; border-radius: 42px;
         transition: all 0.3s ease-in 0s; 
     }
     .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
@@ -42,6 +47,4 @@
     }
     .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
         right: 0px; 
-        background-color: #09F21D; 
     }
-

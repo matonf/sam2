@@ -75,8 +75,7 @@ foreach($conf_mamaison as $var => $val)
 	if (! isset($conf_mamaison[$var])) break;
 	else $item_cur = $conf_mamaison[$var];
 	//action ouvrir/fermer OU allumer/éteindre selon le type de l'item
-	echo ucfirst(item_desc($item_cur)) . " <a href=\"?etat=on&item=" . $var . "\">" . texte_on(item_desc($item_cur)) . "</a> / <a href=\"?etat=off&item=" . $var . "\">" . texte_off(item_desc($item_cur)) . "</a>";
-	echo "<br>";
+	echo ucfirst(item_desc($item_cur)) . " <a href=\"?etat=on&item=" . $var . "\" title=\"" . texte_on(item_desc($item_cur), "fr") . "\">" . texte_on(item_desc($item_cur)) . "</a> &nbsp;<a href=\"?etat=off&item=" . $var . "\" title=\"" . texte_off(item_desc($item_cur), "fr") . "\">" . texte_off(item_desc($item_cur)) . "</a><br>\n";
 } 
 
 echo "<br>";
@@ -95,12 +94,14 @@ if ($_GET)
 
 echo "<a href=\"configurer.php\">Configurer</a><br><br>";
 ?>
+<div class="enligne">
 Mode vacances <div class="onoffswitch">
         <input onclick="setTimeout(mode_vacances, 1000)" type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="mode_vacances" <?php if (est_en_mode_vacances()) echo "checked"; ?>>
         <label class="onoffswitch-label" for="mode_vacances">
             <span class="onoffswitch-inner"></span>
             <span class="onoffswitch-switch"></span>
         </label>
-    </div>
+  	</div>
+</div>
   </body>
 </html>
