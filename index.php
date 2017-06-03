@@ -59,11 +59,8 @@ echo "Bienvenue !<br><br>\n<b>Informations</b><br>\n";
 echo "Nous sommes le " . strftime("%A %d %B") . ".<br>\n";
 $mois = date("m");
 $jour = date("d");
-$lever_solaire = date_sunrise(mktime(1,1,1, $mois, $jour) , SUNFUNCS_RET_STRING, $latitude, $longitude, 90,1+date("I"));			
-$coucher_solaire = date_sunset(mktime(1,1,1, $mois, $jour), SUNFUNCS_RET_STRING, $latitude, $longitude, 90, 1+date("I"));
 
-echo "Le soleil se lève à $lever_solaire et se couche à $coucher_solaire.<br><br>\n";
-
+echo "Le soleil se lève à " . lever_solaire($mois, $jour, $latitude, $longitude) . " et se couche à " . coucher_solaire($mois, $jour, $latitude, $longitude) . ".<br><br>\n";
 
 echo "<b>Mode interactif</b><br>";
 //parcours des items connus

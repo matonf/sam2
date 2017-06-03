@@ -24,7 +24,7 @@ if (NOTIF_PORTABLE)
 	sleep(10);
 }
 
-//prépare une pause en fonction du numéro du premier item dans le but de diminuer les collissions avec d'autres process en parrallèle
+//prépare une pause en fonction du numéro du premier item dans le but de diminuer les collisions avec d'autres process en parrallèle
 $passe = false;
 //active tous les modules un par un
 foreach($tab_items as $item)

@@ -50,8 +50,8 @@ function creer_ligne_cron($etat, $item, $heure_activation, $periode_activation)
 			}
 
 			//calcul de l'horaire solaire pour la France (GMT+1)
-			if ($heure_activation == "autol") $slaire = date_sunrise(mktime(1,1,1, $mois, $jour) , SUNFUNCS_RET_STRING, $latitude, $longitude, 90, 1+date("I"));
-			if ($heure_activation == "autoc") $slaire = date_sunset(mktime(1,1,1, $mois, $jour), SUNFUNCS_RET_STRING, $latitude, $longitude, 90, 1+date("I"));
+			if ($heure_activation == "autol") $slaire = lever_solaire($mois, $jour, $latitude, $longitude);
+			if ($heure_activation == "autoc") $slaire = coucher_solaire($mois, $jour, $latitude, $longitude);
 			$heure_tab = explode(":", $slaire);
 			//formatage des données pour la cron
 			$heure = $heure_tab[0];
@@ -102,8 +102,8 @@ if (! est_en_mode_vacances())
 $pointeur_cron = @fopen(CHEMIN . "sam.crontab.aujourdhui", "w");
 if ($pointeur_cron)
 {
-	fwrite($pointeur_cron, $ligne_cron);
-	fclose($pointeur_cron);
+	@fwrite($pointeur_cron, $ligne_cron);
+	@fclose($pointeur_cron);
 } else echo "ne peut ouvrir en écriture: " . CHEMIN . "sam.crontab.aujourdhui" . "<br>";
 
 //on écrit un peu de bash : on récupère la crontab courante, on retire les anciennes mentions #cronSAM

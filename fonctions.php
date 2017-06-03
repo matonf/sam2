@@ -211,8 +211,8 @@ function item_jours($texte)
 //des libellés dynamiques en fonction des noms de groupes
 function texte_on($texte, $lang="icon")
 {
-	$volets = [ "icon" => "<font color=lime>&uarr;</font>" , "fr" => "ouvrir" ];
-	$lampes = [ "icon" => "<font color=yellow>&Omicron;</font>", "fr" => "allumer" ];
+	$volets = [ "icon" => "<font color=lime><b>&uarr;</b></font>" , "fr" => "ouvrir" ];
+	$lampes = [ "icon" => "<font color=yellow><b>&Omicron;</b></font>", "fr" => "allumer" ];
 	//ouverture
 	if (stripos($texte, "volet") !== false || stripos($texte, "store") !== false) return $volets[$lang];
 	//allumage
@@ -222,8 +222,8 @@ function texte_on($texte, $lang="icon")
 
 function texte_off($texte, $lang="icon")
 {
-	$volets = [ "icon" => "&darr;" , "fr" => "fermer" ];
-	$lampes = [ "icon" => "&Oslash;" , "fr" => "éteindre" ];
+	$volets = [ "icon" => "<b>&darr;</b>" , "fr" => "fermer" ];
+	$lampes = [ "icon" => "<b>&Oslash;</b>" , "fr" => "éteindre" ];
 	//fermeture
 	if (stripos($texte, "volet") !== false || stripos($texte, "store") !== false) return $volets[$lang];
 	//extinction
@@ -239,5 +239,17 @@ function charger_conf()
 	//en cas d'absence, charge des valeurs par défaut
 	if ($conf_fic === FALSE) $conf_fic = [ "ville_utilisateur" => "Rouen" ];
 	return $conf_fic;
+}
+
+
+//function astronomiques
+function coucher_solaire($mois, $jour, $latitude, $longitude)
+{
+	return date_sunset(mktime(1,1,1, $mois, $jour), SUNFUNCS_RET_STRING, $latitude, $longitude, 90, 1+date("I"));
+}
+
+function lever_solaire($mois, $jour, $latitude, $longitude)
+{
+	return date_sunrise(mktime(1,1,1, $mois, $jour) , SUNFUNCS_RET_STRING, $latitude, $longitude, 90, 1 + date("I"));
 }
 ?>

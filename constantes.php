@@ -36,10 +36,6 @@ define('AFFICHER_CAPTEUR', false);
 define('FIC_VACANCES', 'VACANCES.lock');
 //fichier de LOCK du module radio
 define('FIC_LOCK_RADIO', 'RADIO.lock');
-//fond de page du mode vacances
-define('FOND_VACANCES', '#FFFC4F');
-//fond de page normal
-define('FOND_NORMAL', '#f8f8f6');
 //nom du cookie de l'utilisateur
 define('COOKIE_ID', "cookie_sam" . VERSION . "_id");
 //nom du cookie du mot de passe
@@ -49,5 +45,5 @@ define('AUBE', 'capteur-aube');
 //capteur : mot clef pour le crépuscule
 define('CREPUSCULE', 'capteur-crepuscule');
 //accepter notifications sur téléphone portable
-define('NOTIF_PORTABLE', true);
+define('NOTIF_PORTABLE', false);
 ?>
