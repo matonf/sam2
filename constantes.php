@@ -11,7 +11,7 @@ $NOLOGIN = [ "activer.php" , "cron.php", "radioReception.php" ];
 //Numéro WiringPi du pin raspberry branché a l'emetteur radio
 define('PIN', 0);
 //Code télécommande du raspberry (ne doit pas exceder les 2^26)
-define('SENDER', 555);
+define('SENDER', 111);
 //nom du fichier de conf
 define('MA_CONF', 'mamaison2.conf');
 //nos références françaises : villes => latitude, longitude
