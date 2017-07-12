@@ -14,7 +14,7 @@ Il vous faut un :
 - ordinateur sous linux (PC/Raspberry pi/autre), le pi est idéal pour ce projet, même une version très ancienne ou la moins puissante comme le Zero. Mon système configuré en serveur, n'utilise que 90 Mo de RAM tout compris (Debian, serveur web, autres...) et 0% du CPU de mon Raspberry Pi 0.
 - serveur Web (Apache/Nginx/autre), j'utilise Nginx pour sa légèreté
 - PHP 5 et supérieur (on est à la version 7 mais sur ma Debien Jessie j'en suis à la 5)
-- émetteur radio 433Mhz connecté sur l'ordinateur (1 euro environ sur Amazon)
+- émetteur radio 433Mhz connecté sur l'ordinateur 
 - modules radio récepteurs DIO chacon pour piloter vos équipements (volets, lampes, etc.) qu'on peut acheter sur Internet ou en boutiques de bricolage comme Leroy Merluche
 - SAM installé et configuré dans un répertoire de votre serveur web (/var/www/sam idéalement sinon il faut changer le chemin dans constantes.php)
 - récepteur radio 433Mhz connecté sur l'ordinateur + capteur crépusculaire DIO (fonction prototypée, non opérationnelle à ce jour)
@@ -66,13 +66,19 @@ Nouveauté : la géolocalisation. Déroulez la liste des villes, sélectionnez "
 
 ### Liste de courses
 Pour ce projet, il faut :
-* Un rasp 0 W (avec wifi donc) : https://shop.pimoroni.com/collections/raspberry-pi-zero
-* Un émetteur radio : http://www.ebay.fr/itm/Module-emetteur-radio-433Mhz-Wireless-UHF-Transmitter-Arduino-Raspberry-HG-/201640979378?hash=item2ef2bd2bb2:g:eLgAAOSwqBJXWnOB
-* Du fil électrique pour câbler tout ce petit monde et un spécifique de longueur 17.3 cm pour l'antenne
-* Un transfo 5V
-* Des modules de la marque DIO pour volets roulants : https://www.leroymerlin.fr/v3/p/produits/kit-de-3-modules-pour-volet-roulant-dio-e186621
-* Bonus : une LED pour clignoter quand on en a envie (quand le rasp est prêt ou qu'il émet une onde radio par exemple)
-* Bonus 2 : un bouton poussoir pour éteindre proprement le rasp
+* Un raspberry pi 0 W (10€) : https://shop.pimoroni.com/collections/raspberry-pi-zero
+* Un émetteur radio (1€) : http://www.ebay.fr/itm/Module-emetteur-radio-433Mhz-Wireless-UHF-Transmitter-Arduino-Raspberry-HG-/201640979378?hash=item2ef2bd2bb2:g:eLgAAOSwqBJXWnOB
+* Du fil électrique pour câbler tout ce petit monde et un spécifique de longueur 17.3 cm pour l'antenne (1€)
+* Un transfo 220V->5V (5€ ou récupération de celui d'un vieux téléphone portable)
+* Une carte mémoire 8Go microSD (5€) pour recevoir la distribution Linux
+* Un boitier pour le pi (5€)
+* Bonus : une LED pour clignoter quand on en a envie ! Quand le rasp est prêt ou qu'il émet une onde radio par exemple... (0.1€)
+* Bonus 2 : un bouton poussoir pour éteindre proprement le rasp (0.1€)
+
+L'ensemble coûtera entre 15 et 30 euros selon votre capacité à recycler boitier (en Lego ?), carte mémoire, chargeur et petits équipements électriques.
+
+Et pour tous vos volets :
+* Des modules de la marque DIO pour volets roulants (23€ pièce) : https://www.leroymerlin.fr/v3/p/produits/kit-de-3-modules-pour-volet-roulant-dio-e186621
 
 ### Ressources et inspirations
 Radio et pi :
