@@ -9,11 +9,11 @@ SAM pour Système Autonome de Maison est un projet d'amusement open-source combi
 Il vous faut un :
 - ordinateur sous linux (PC/Raspberry pi/autre), le pi est idéal pour ce projet, même une version très ancienne ou la moins puissante comme le Zero. Mon système configuré en serveur, n'utilise que 90 Mo de RAM tout compris (Debian, serveur web, autres...) et 0% du CPU de mon Raspberry Pi 0.
 - serveur Web (Apache/Nginx/autre), j'utilise Nginx pour sa légèreté
-- PHP 5 et supérieur (on est 7 mais sur ma Debien Jessie j'en suis au 5)
+- PHP 5 et supérieur (on est à la version 7 mais sur ma Debien Jessie j'en suis à la 5)
 - émetteur radio 433Mhz connecté sur l'ordinateur (1 euro environ sur Amazon)
 - modules radio récepteurs DIO chacon pour piloter vos équipements (volets, lampes, etc.) qu'on peut acheter sur Internet ou en boutiques de bricolage comme Leroy Merluche
 - SAM installé et configuré dans un répertoire de votre serveur web (/var/www/sam idéalement sinon il faut changer le chemin dans constantes.php)
-- récepteur radio 433Mhz connecté sur l'ordinateur + capteur crépusculaire DIO (fonction protoypée, non opérationnelle à ce jour)
+- récepteur radio 433Mhz connecté sur l'ordinateur + capteur crépusculaire DIO (fonction prototypée, non opérationnelle à ce jour)
 - un smartphone et PushBullet installé (optionnel) pour recevoir gratuitement des notifications de l'application (ex : "SAM va ouvrir les volets du salon") 
 
 ### Installation  
@@ -58,6 +58,15 @@ Si vous déménagez loin, il est logique de retourner choisir la nouvellle ville
 
 Nouveauté : la géolocalisation. Déroulez la liste des villes, sélectionnez "Géolocalisée" puis cliquez sur le bouton "Géolocalise-moi". Acceptez la demande de géolocalisation : un message vous indique que vous avez été trouvé. Enrgistrez: vos coordonnées sont stockées, vous n'aurez plus jamais besoin de vous géolocaliser sauf si vous déménagez bin sûr.
 
+### Liste de courses
+Pour ce projet, il faut :
+* Un rasp 0 W (avec wifi donc) : https://shop.pimoroni.com/collections/raspberry-pi-zero
+* Un émetteur radio : http://www.ebay.fr/itm/Module-emetteur-radio-433Mhz-Wireless-UHF-Transmitter-Arduino-Raspberry-HG-/201640979378?hash=item2ef2bd2bb2:g:eLgAAOSwqBJXWnOB
+* Du fil électrique pour câbler tout ce petit monde et un spécifique de longueur 17.3 cm pour l'antenne
+* Un transfo 5V
+* Des modules de la marque DIO pour volets roulants : https://www.leroymerlin.fr/v3/p/produits/kit-de-3-modules-pour-volet-roulant-dio-e186621
+* Bonus : une LED pour clignoter quand on en a envie (quand le rasp est prêt ou qu'il émet une onde radio par exemple)
+* Bonus 2 : un bouton poussoir pour éteindre proprement le rasp
 
 ### Ressources et inspirations
 Radio et pi :
@@ -69,10 +78,10 @@ Radio et pi :
 * http://homeeasyhacking.wikia.com/wiki/Home_Easy_Hacking_Wiki
 * https://learnraspi.com/2016/04/12/get-notifications-raspberry-pi-pushbullet/
 * https://gladysproject.com/fr/article/connecter-un-arduino-au-raspberry-pi
+* http://www.pihomeserver.fr/2013/10/25/raspberry-pi-home-server-ajouter-bouton-darret/
 
 Serveur web Nginx :
 * https://doc.ubuntu-fr.org/nginx
 * https://wiki.deimos.fr/Nginx_:_Installation_et_configuration_d'une_alternative_d'Apache
 * https://www.guillaume-leduc.fr/gestion-caches-nginx-php-fpm.html
 * http://legissa.ovh/internet-se-proteger-des-pirates-et-hackers.html
-
