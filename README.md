@@ -5,6 +5,10 @@ Licence : CC by sa
 
 SAM pour Système Autonome de Maison est un projet d'amusement open-source combinant un peu de code, un peu d'électronique afin d'automatiser des équipements privés : lampes, volets, etc. branchés sur des modules à ondes (type Chacon DIO). Ce mini-projet de domotique use du PHP, du Javascript, un peu de shell...
 
+Capture d'écran de l'interface sur un téléphone portable :
+
+![accueil](https://github.com/onfray/sam2/blob/master/index.png)
+
 ### Pré-requis
 Il vous faut un :
 - ordinateur sous linux (PC/Raspberry pi/autre), le pi est idéal pour ce projet, même une version très ancienne ou la moins puissante comme le Zero. Mon système configuré en serveur, n'utilise que 90 Mo de RAM tout compris (Debian, serveur web, autres...) et 0% du CPU de mon Raspberry Pi 0.
@@ -50,11 +54,13 @@ La première page permet de :
 - accéder à la configuration
 
 Page configuration :  
+
+![configuration](https://github.com/onfray/sam2/blob/master/configurer.png)
+
 Définissez autant de règles que vous voulez ! Entrez un nom de règle, puis les codes des modules (volets, lampes, etc), les périodes d'activation de la programmation (semaine, week-end, ou encore semaine et week-end). 
 
 Un fichier de votre conf est créé par le programme (droits d'écriture nécessaires dans le répertoire sam).  
-Le lever et le coucher du soleil sont calculés selon la ville choisie dans la liste déroulante. Sélectionnez la plus proche de vous, j'ai retenu les nouvelles capitales de région (Bordeaux, Rouen, Lyon, etc). Par défaut c'est Rouen.
-Si vous déménagez loin, il est logique de retourner choisir la nouvellle ville la plus proche.
+Le lever et le coucher du soleil sont calculés selon la ville choisie dans la liste déroulante. Sélectionnez la plus proche de vous, j'ai retenu les nouvelles capitales de région (Bordeaux, Rouen, Lyon, etc). Par défaut c'est Rouen. Si vous déménagez loin, il est logique de retourner choisir la nouvellle ville la plus proche.
 
 Nouveauté : la géolocalisation. Déroulez la liste des villes, sélectionnez "Géolocalisée" puis cliquez sur le bouton "Géolocalise-moi". Acceptez la demande de géolocalisation : un message vous indique que vous avez été trouvé. Enrgistrez: vos coordonnées sont stockées, vous n'aurez plus jamais besoin de vous géolocaliser sauf si vous déménagez bin sûr.
 
