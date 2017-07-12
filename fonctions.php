@@ -53,7 +53,7 @@ function est_en_mode_vacances()
 	return file_exists(CHEMIN . FIC_VACANCES);
 }
 
-//active ou déasctive le mode vacances
+//active ou désactive le mode vacances
 function activer_mode_vacances($activer=true)
 {
 		if ($activer) 
@@ -155,13 +155,13 @@ function activer_module_radio($objet, $etat)
 		ecrire_log("a patienté $cpt seconde(s) à cause du lock radio (passage de $objet à $etat)");
 		$cpt++;
 		//on sort au bout de 20 essais
-		if ($cpt == 20)	break;
+		if ($cpt >= 20)	break;
 	}
 	activer_lock_radio(true);
 	//on lance la commande radio
 	system($commande);
 	// attente entre les deux envois
- 	usleep(1000);
+ 	usleep(2000);
 	//rejoue la commande pour augmenter les chances
 	system($commande);
 	//supprime le verrou
@@ -242,7 +242,7 @@ function charger_conf()
 }
 
 
-//function astronomiques
+//fonction astronomiques
 function coucher_solaire($mois, $jour, $latitude, $longitude)
 {
 	return date_sunset(mktime(1,1,1, $mois, $jour), SUNFUNCS_RET_STRING, $latitude, $longitude, 90, 1+date("I"));

@@ -1,18 +1,21 @@
-/* css pour le bouton du mode vacances */
-.enligne {
-	display: inline;
+body {
+    background-color: #f4fdd9;
+}
+.floating-box {
+    display: inline-block;
 }
 /* source pour le bouton interrupteur : https://proto.io/freebies/onoff/ */
     .onoffswitch {
         position: relative; width: 48px;
         -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+
     }
     .onoffswitch-checkbox {
         display: none;
     }
     .onoffswitch-label {
         display: block; overflow: hidden; cursor: pointer;
-        border: 2px solid #999999; border-radius: 42px;
+        border: 2px solid #999999; border-radius: 45px;
     }
     .onoffswitch-inner {
         display: block; width: 200%; margin-left: -100%;
@@ -26,7 +29,8 @@
     .onoffswitch-inner:before {
         content: "";
         padding-left: 10px;
-        background-color: #49EB51; color: #FFFFFF;
+	/*couleurs de fond et premier plan du bouton */
+        background-color: #f3a738; color: #fff; 
     }
     .onoffswitch-inner:after {
         content: "";
@@ -39,7 +43,7 @@
         background: #FFFFFF;
         position: absolute; top: 0; bottom: 0;
         right: 32px;
-        border: 2px solid #999999; border-radius: 42px;
+        border: 2px solid #999999; border-radius: 45px;
         transition: all 0.3s ease-in 0s; 
     }
     .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
@@ -48,3 +52,4 @@
     .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
         right: 0px; 
     }
+
