@@ -10,8 +10,12 @@ define('SECURISER', true);
 $NOLOGIN = [ "activer.php" , "cron.php", "radioReception.php" ];
 //Numéro WiringPi du pin raspberry branché a l'emetteur radio
 define('PIN', 0);
-//Code télécommande du raspberry (ne doit pas exceder les 2^26)
-define('SENDER', 111);
+//récupère le numéro de série du Pi
+$numserie = exec("grep Serial /proc/cpuinfo | cut -d ' ' -f 2");
+//ne garde que les numériques puis les 6 premiers chiffres
+$numserienum = (int) substr((int) preg_replace("#[^0-9]#", "", $numserie), 0, 6);
+//code télécommande du raspberry (ne doit pas excéder les 2^26 = 67 108 864)
+define('SENDER', $numserienum);
 //nom du fichier de conf
 define('MA_CONF', 'mamaison2.conf');
 //nos références françaises : villes => latitude, longitude
