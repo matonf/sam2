@@ -11,7 +11,7 @@ Capture d'écran de l'interface sur un téléphone portable :
 
 ### Pré-requis
 Il vous faut un :
-- ordinateur sous linux (PC/Raspberry pi/autre), le pi est idéal pour ce projet, même une version très ancienne ou la moins puissante comme le Zero. Mon système configuré en serveur, n'utilise que 90 Mo de RAM tout compris (Debian, serveur web, autres...) et 0% du CPU de mon Raspberry Pi 0.
+- Raspberry pi, même une version très ancienne ou la moins puissante comme le Zero. Mon système configuré en serveur, n'utilise que 90 Mo de RAM tout compris (Debian, serveur web, autres...) et 0% du CPU de mon Raspberry Pi 0.
 - serveur Web (Apache/Nginx/autre), j'utilise Nginx pour sa légèreté
 - PHP 5 et supérieur (on est à la version 7 mais sur ma Debien Jessie j'en suis à la 5)
 - émetteur radio 433Mhz connecté sur l'ordinateur 
