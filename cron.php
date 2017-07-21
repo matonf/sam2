@@ -20,7 +20,9 @@ function creer_ligne_cron($etat, $item, $heure_activation, $periode_activation)
 	switch ($heure_activation)
 	{
 		//c'est l'option "ne rien faire" ou les commande extérieures via capteur crépusculaire
-		case 25 : case CREPUSCULE : case AUBE :
+		case 25 : 
+		case CREPUSCULE : 
+		case AUBE :
 			return; break;
 
 		//minuit devient 23h59 pour le lancement le jour même
@@ -30,7 +32,8 @@ function creer_ligne_cron($etat, $item, $heure_activation, $periode_activation)
 			break;
 
 		//lever ou coucher solaire calculé automatiquement
-		case "autol" : case "autoc" :
+		case "autol" : 
+		case "autoc" :
 			global $villes, $conf_mamaison;
 			//jour du mois
 			$jour = date("j");
@@ -73,29 +76,39 @@ function creer_ligne_cron($etat, $item, $heure_activation, $periode_activation)
 			}
 			break;
 	}
-	return "$minutes $heure * * * php " . CHEMIN . "activer.php $etat $item #cronSAM " . VERSION . PHP_EOL;
+	return "$minutes $heure";
 }
 //FIN DE LA FONCTION
 
 
 //charge la conf de l'utilisateur
 $conf_mamaison = charger_conf();
+$actions_cron = array();
 $ligne_cron = null;
-
 //détection du mode vacances
 if (! est_en_mode_vacances())
 {
-	//parcours des items connus
-	foreach($conf_mamaison as $var => $val)
+	//parcours des items connus et stockage dans un tableau associatif
+	foreach ($conf_mamaison as $item => $val)
 	{
 		//recherche le motif "itemX" : si on le trouve pas on passe au motif suivant
-		if (! item_valide($var)) continue;
-		$item_cur = $conf_mamaison[$var];
-		//état on
-		$ligne_cron .= creer_ligne_cron("on", $var, item_on($item_cur), item_jours($item_cur));
-		//état off
-		$ligne_cron .= creer_ligne_cron("off", $var, item_off($item_cur), item_jours($item_cur));
+		if (! item_valide($item)) continue;
+
+		//état on/off parcourus
+		foreach ($tab_actions = array("on", "off") as $tab_action)
+		{
+			$fonction_etat = "item_" . $tab_action;
+			$ret_cron = creer_ligne_cron($tab_action, $item, $fonction_etat($val), item_jours($val));
+			if ($ret_cron) 
+				//concatène le résultat des ordres
+				if (isset($actions_cron[$ret_cron])) $actions_cron[$ret_cron] = $actions_cron[$ret_cron] . ' ' . $item . '/' . $tab_action;
+				else $actions_cron[$ret_cron] = $item . '/' . $tab_action;
+		}
+
+
 	} 
+	//stocke le parcours du tableau dans une chaîne de caractères
+	foreach ($actions_cron as $horaire => $ordre) $ligne_cron .= "$horaire * * * php " . CHEMIN . "activer.php $ordre #cronSAM " . VERSION . PHP_EOL;
 }
 
 //écrit le fichier crontab de ce jour 

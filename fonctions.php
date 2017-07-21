@@ -65,17 +65,6 @@ function activer_mode_vacances($activer=true)
 		else @unlink(CHEMIN . FIC_VACANCES);
 }
 
-function activer_lock_radio($activer=true)
-{
-		if ($activer) 
-		{
-			//on crée un fichier vide
-			$f = @fopen(CHEMIN . FIC_LOCK_RADIO, "w");
-			@fclose($f);
-		}
-		else @unlink(CHEMIN . FIC_LOCK_RADIO);
-}
-
 //log les événements
 function ecrire_log($texte)
 {
@@ -138,7 +127,7 @@ function creer_liste_jours($nom, $val_utilisateur)
 //ouvrir ou fermer un objet par onde radio
 function activer_module_radio($objet, $etat)
 {
-	//vérifications : les états on ou off
+	//vérifications : les états "on" ou "off"
 	if ($etat != "on" && $etat != "off") 
 	{
 		ecrire_log("a tenté de passer l'objet $objet à un état incorrect : $etat");
@@ -146,26 +135,12 @@ function activer_module_radio($objet, $etat)
 	}
 	//prépare la commande radio
 	$commande = CHEMIN . 'radioEmission ' . PIN . ' ' . SENDER . ' ' . $objet . ' ' . $etat;
-	//compteur de tentatives
-	$cpt = 1;
-	//pour gérer les exécutions concurentielles
-	while (file_exists(CHEMIN . FIC_LOCK_RADIO))
-	{
-		sleep(1);
-		ecrire_log("a patienté $cpt seconde(s) à cause du lock radio (passage de $objet à $etat)");
-		$cpt++;
-		//on sort au bout de 20 essais
-		if ($cpt >= 20)	break;
-	}
-	activer_lock_radio(true);
 	//on lance la commande radio
 	system($commande);
-	// attente entre les deux envois
- 	usleep(2000);
+	//attente entre les deux envois
+ 	usleep(3000);
 	//rejoue la commande pour augmenter les chances
 	system($commande);
-	//supprime le verrou
-	activer_lock_radio(false);
 	ecrire_log("a passé l'objet $objet à $etat");
 }
 
