@@ -38,8 +38,6 @@ define('AFFICHER30', false);
 define('AFFICHER_CAPTEUR', false);
 //fichier de LOCK du mode vacances
 define('FIC_VACANCES', 'VACANCES.lock');
-//fichier de LOCK du module radio
-define('FIC_LOCK_RADIO', 'RADIO.lock');
 //nom du cookie de l'utilisateur
 define('COOKIE_ID', "cookie_sam" . VERSION . "_id");
 //nom du cookie du mot de passe
