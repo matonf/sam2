@@ -19,14 +19,7 @@ if ($_GET)
 		require("cron.php");
 	}
 
-	if (isset($conf_mamaison[$_GET["item"]]))
-	{
-		//récupère l'élément concerné par l'action
-		$items = item_expl(item_items($conf_mamaison[$_GET["item"]]), " ");
-		//activation des objets en mode manuel : "on" pour les ouvrir et "off" pour les fermer
-		for ($i=0; $i<count($items); $i++) activer_module_radio($items[$i], $_GET['etat']);
-	} 
-	//else ecrire_log("a tenté de passer à " . $_GET['etat'] . " l'objet inexistant : " . $_GET["item"]);
+	if (isset($conf_mamaison[$_GET["item"]])) activer_item_radio($_GET["item"], $_GET['etat']);
 
 	//renvoie pour ne pas garder l'url avec les get en mémoire dans le navigateur
 	header("Location: index.php");

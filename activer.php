@@ -20,7 +20,8 @@ if (NOTIF_PORTABLE)
 		$item = $details[0];
 		$etat = $details[1];
 		$fonction_texte = "texte_" . $etat;
-		$message .= "SAM va " . $fonction_texte(item_desc($conf_mamaison[$item]), "fr") . " " . strtolower(item_desc($conf_mamaison[$item])) . "\n";
+		if (isset($message)) $message .= "\n";
+		$message .= "SAM va " . $fonction_texte(item_desc($conf_mamaison[$item]), "fr") . " " . strtolower(item_desc($conf_mamaison[$item])) . ".";
 	}
 	//on lance la commande pushbullet sur le système
 	system(CHEMIN . 'pushbullet.sh "' . $message . '" "' . $titre . '"');
@@ -37,7 +38,8 @@ for ($i=1; $i<$argc; $i++)
 	$details = explode('/', $argv[$i]);
 	$item = $details[0];
 	$etat = $details[1];
-	activer_module_radio($item, $etat);
+	activer_item_radio($item, $etat);
 }
+
 
 ?>

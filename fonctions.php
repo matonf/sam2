@@ -124,6 +124,16 @@ function creer_liste_jours($nom, $val_utilisateur)
 	echo "</select>\n";
 }
 
+//prépare l'activation d'un ensemble d'éléments radio
+function activer_item_radio($item, $etat)
+{
+	global $conf_mamaison;
+	//récupère l'élément concerné par l'action
+	$items = item_expl(item_items($conf_mamaison[$item]), " ");
+	//activation des objets en mode manuel : "on" pour les ouvrir et "off" pour les fermer
+	for ($i=0; $i<count($items); $i++) activer_module_radio($items[$i], $etat);
+}
+
 //ouvrir ou fermer un objet par onde radio
 function activer_module_radio($objet, $etat)
 {
@@ -155,7 +165,7 @@ function item_valide($nom)
 
 function item_expl($texte, $delimiteur=DELIMITEUR)
 {
-	return explode($delimiteur,$texte);
+	return explode($delimiteur,trim($texte));
 }
 
 function item_desc($texte)
