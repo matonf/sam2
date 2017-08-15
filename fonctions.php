@@ -148,7 +148,7 @@ function activer_module_radio($objet, $etat)
 	//on lance la commande radio
 	system($commande);
 	//attente entre les deux envois
- 	usleep(3000);
+ 	usleep(2000);
 	//rejoue la commande pour augmenter les chances
 	system($commande);
 	ecrire_log("a passé l'objet $objet à $etat");
