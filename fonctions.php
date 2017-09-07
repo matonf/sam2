@@ -148,7 +148,7 @@ function activer_module_radio($objet, $etat)
 	//on lance la commande radio
 	system($commande);
 	//attente entre les deux envois
- 	usleep(2000);
+ 	usleep(3000);
 	//rejoue la commande pour augmenter les chances
 	system($commande);
 	ecrire_log("a passé l'objet $objet à $etat");
@@ -194,10 +194,10 @@ function item_jours($texte)
 }
 
 //des libellés dynamiques en fonction des noms de groupes
-function texte_on($texte, $lang="icon")
+function texte_on($texte, $lang="fr")
 {
-	$volets = [ "icon" => "<font color=lime><b>&uarr;</b></font>" , "fr" => "ouvrir" ];
-	$lampes = [ "icon" => "<font color=yellow><b>&Omicron;</b></font>", "fr" => "allumer" ];
+	$volets = [ "en" => "open" , "fr" => "ouvrir" ];
+	$lampes = [ "en" => "light on", "fr" => "allumer" ];
 	//ouverture
 	if (stripos($texte, "volet") !== false || stripos($texte, "store") !== false) return $volets[$lang];
 	//allumage
@@ -205,10 +205,10 @@ function texte_on($texte, $lang="icon")
 	return "on";
 }
 
-function texte_off($texte, $lang="icon")
+function texte_off($texte, $lang="fr")
 {
-	$volets = [ "icon" => "<b>&darr;</b>" , "fr" => "fermer" ];
-	$lampes = [ "icon" => "<b>&Oslash;</b>" , "fr" => "éteindre" ];
+	$volets = [ "en" => "close" , "fr" => "fermer" ];
+	$lampes = [ "en" => "light off" , "fr" => "éteindre" ];
 	//fermeture
 	if (stripos($texte, "volet") !== false || stripos($texte, "store") !== false) return $volets[$lang];
 	//extinction
@@ -225,7 +225,6 @@ function charger_conf()
 	if ($conf_fic === FALSE) $conf_fic = [ "ville_utilisateur" => "Rouen" ];
 	return $conf_fic;
 }
-
 
 //fonction astronomiques
 function coucher_solaire($mois, $jour, $latitude, $longitude)

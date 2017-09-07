@@ -1,5 +1,5 @@
 body {
-    background-color: #f4fdd9;
+    background-color: #dddde5;
 }
 .floating-box {
     display: inline-block;
@@ -53,3 +53,25 @@ body {
         right: 0px; 
     }
 
+/* source pour les boutons on et off : http://41mag.fr/18-exemples-de-bouton-en-css-3-inspire-par-google.html */
+button {
+	cursor:pointer;
+}
+.on {
+	width:70px;
+	height:70px;
+	background:#fafafa;
+	box-shadow:2px 2px 8px #aaa;
+	font:bold 13px Arial;
+	border-radius:50%;
+	color:#555;
+}
+.off {
+	width:70px;
+	height:70px;
+	background:#cc0000;
+	font:bold 13px Arial;
+	border-radius:50%;
+	border:none;
+	color:#fff;
+}

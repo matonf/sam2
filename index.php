@@ -22,7 +22,7 @@ if ($_GET)
 	if (isset($conf_mamaison[$_GET["item"]])) activer_item_radio($_GET["item"], $_GET['etat']);
 
 	//renvoie pour ne pas garder l'url avec les get en mémoire dans le navigateur
-	header("Location: index.php");
+	header("Location: /");
 	exit();
 
 }
@@ -82,12 +82,19 @@ foreach($conf_mamaison as $var => $val)
 	if (! isset($conf_mamaison[$var])) break;
 	else $item_cur = $conf_mamaison[$var];
 	//action ouvrir/fermer OU allumer/éteindre selon le type de l'item
-	echo ucfirst(item_desc($item_cur)) . " <a href=\"?etat=on&item=" . $var . "\" title=\"" . texte_on(item_desc($item_cur), "fr") . "\">" . texte_on(item_desc($item_cur)) . "</a> &nbsp;<a href=\"?etat=off&item=" . $var . "\" title=\"" . texte_off(item_desc($item_cur), "fr") . "\">" . texte_off(item_desc($item_cur)) . "</a><br>\n";
+	echo ucfirst(item_desc($item_cur));
+	//état on/off parcourus
+	echo "<ul class=\"listeBouton\">";
+	foreach ($tab_actions = array("on", "off") as $tab_action)
+	{
+		$fonction_etat = "texte_" . $tab_action;
+		echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"?etat=" . $tab_action . "&item=" . $var . "\" title=\"" . $fonction_etat(item_desc($item_cur), "fr") . "\"><button class=\"" . $tab_action . "\">" . $fonction_etat(item_desc($item_cur), "fr") . "</button></a>";
+	}
+	echo "</ul><br>\n";
 } 
 ?>
 
 <br><a href="configurer.php">Configurer</a><br><br>
-
 <div class="floating-box">Mode absence&nbsp;&nbsp;</div> 
 <div class="floating-box">
 	<div class="onoffswitch">
