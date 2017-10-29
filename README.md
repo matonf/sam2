@@ -25,10 +25,10 @@ Il vous faut préalablement installer et configurer nginx of course.
 
 Donner les droits d'éxécution sur le binaire radioEmission (sudo chown root:www-data /var/www/sam/radioEmission puis un sudo chmod 4777 radioEmission) sinon l'interface web ne fonctionnera pas !
 
-Ajouter dans la crontab le lancement chaque nuit à 1h00 du script cron.php pour un utilisateur du système (www-data).
+Ajouter dans la crontab le lancement chaque nuit à 5h00 du script cron.php pour un utilisateur du système (www-data).
 
 Exemple de ligne :   
-0 1 * * * php /var/www/sam/cron.php #exécution nocturne de sam :)
+0 5 * * * php /var/www/sam/cron.php #exécution nocturne de sam :)
 
 Pour sécuriser votre site, éditez le fichier id.php et mettez-y les couples utilisateur/mot de passe de votre choix. Le fichier en contient en exemple. Vous pouvez aussi définir votre couple clef publique/privée Google reCaptcha pour activer automatiquement cette technologie au login. Il faut mettre la constante SECURISER à true dans constantes.php pour activer la sécurisation (fait par défaut). Dans ce cas toutes les pages web demanderont une authentification, mais pour éviter de se loguer chaque fois, un cookie valable un an est positionné sur le client. Vous pouvez changer la durée de rétention du cookie dans constantes.php (constante COOKIE_EXPIRE)
 
