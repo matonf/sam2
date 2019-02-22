@@ -1,21 +1,17 @@
 <?php
 /*
-Par Matthieu ONFRAY (http://www.onfray.info)
-Licence : CC by sa
+Par Matthieu ONFRAY
+
 */
 //CONSTANTES
 //sécuriser l'accès par login
-define('SECURISER', true);
+define('SECURISER', false);
 //fichiers sans sécurisation
-$NOLOGIN = [ "activer.php" , "cron.php", "radioReception.php" ];
-//Numéro WiringPi du pin raspberry branché a l'emetteur radio
-define('PIN', 0);
-//récupère le numéro de série du Pi
-$numserie = exec("grep Serial /proc/cpuinfo | cut -d ' ' -f 2");
-//ne garde que les numériques puis les 6 premiers chiffres
-$numserienum = (int) substr((int) preg_replace("#[^0-9]#", "", $numserie), 0, 6);
-//code télécommande du raspberry (ne doit pas excéder les 2^26 = 67 108 864)
-define('SENDER', $numserienum);
+$NOLOGIN = [ "activer.php" , "cron.php", "radioReception.php", "dash-activer.php" ];
+//Numéro WiringPi du pin raspberry branché a l'emetteur radio, si null = arduino
+define('Pi_PIN', 0);
+//Port COM de l'arduino
+define('Arduino_COM', null);
 //nom du fichier de conf
 define('MA_CONF', 'mamaison2.conf');
 //nos références françaises : villes => latitude, longitude
@@ -25,13 +21,15 @@ define('COOKIE_EXPIRE', 365*24*3600);
 //faut-il loguer
 define('LOG', false);
 //fichier de log
-define('HISTO', 'historique.log');
+define('FIC_HISTO', 'historique.log');
 //version du logiciel
-define('VERSION', '2');
+define('VERSION', '3');
 //délimiteur du fichier de conf
 define('DELIMITEUR', ',');
 //chemin du dossier web
-define('CHEMIN', '/var/www/sam/');
+define('CHEMIN', '/var/www/html/');
+//chemin des fichiers switch
+define('CHEMIN_SWITCH', CHEMIN . 'switch/');
 //accepte les demi-heures dans la programmation
 define('AFFICHER30', false);
 //accepte un capteur crépusculaire dans la programmation
@@ -39,13 +37,41 @@ define('AFFICHER_CAPTEUR', false);
 //fichier de LOCK du mode vacances
 define('FIC_VACANCES', 'VACANCES.lock');
 //nom du cookie de l'utilisateur
-define('COOKIE_ID', "cookie_sam" . VERSION . "_id");
+define('COOKIE_ID', "cookie_sam_id");
 //nom du cookie du mot de passe
-define('COOKIE_MDP', "cookie_sam" . VERSION . "_mdp");
+define('COOKIE_MDP', "cookie_sam_mdp");
 //capteur : mot-clef pour l'aube
 define('AUBE', 'capteur-aube');
 //capteur : mot clef pour le crépuscule
 define('CREPUSCULE', 'capteur-crepuscule');
-//accepter notifications sur téléphone portable
-define('NOTIF_PORTABLE', false);
+//accepter notifications sur téléphone portable : FREE ou PUSHBULLET ou null
+define('NOTIF_PORTABLE', null);
+//numéro du pin de la LED
+define('Pi_LED', null);
+//fichier personnalisé de l'émetteur
+define('FIC_SENDER', CHEMIN . 'sender.php');
+
+//initialisation du code émetteur
+if (! file_exists(FIC_SENDER)) 
+{
+	//détermine un numéro unique
+	if (is_null(Pi_PIN))
+	{
+		//arduino : nombre aléatoire
+		$numserienum = rand(1111, 999999);
+	}
+	else 
+	{
+		//raspberry pi : récupère le numéro de série du Pi
+		$numserie = exec("grep Serial /proc/cpuinfo | cut -d ' ' -f 2");
+		//ne garde que les numériques puis les 6 premiers chiffres
+		$numserienum = (int) substr((int) preg_replace("#[^0-9]#", "", $numserie), 0, 6);
+	}
+	//code télécommande dans un fichier
+	$pts = @fopen(FIC_SENDER, 'w');
+	@fwrite($pts, "<?php\ndefine('SENDER', " . $numserienum . ");\n?>");
+	@fclose($pts);
+}
+//charge le code émetteur
+require_once(FIC_SENDER);
 ?>

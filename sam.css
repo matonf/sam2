@@ -1,5 +1,5 @@
 body {
-    background-color: #dddde5;
+    background-color: #CCC;
 }
 .floating-box {
     display: inline-block;
@@ -74,4 +74,30 @@ button {
 	border-radius:50%;
 	border:none;
 	color:#fff;
+}
+
+/* source an Icon Bar : https://www.w3schools.com/howto/howto_css_icon_bar.asp  */
+.icon-bar {
+  width: 100%;
+  background-color: #CCC;
+  overflow: auto;
+}
+
+.icon-bar a {
+  float: left;
+  width: 20%;
+  text-align: center;
+  padding: 12px 0;
+  transition: all 0.4s ease;
+  color: white;
+  font-size: 36px;
+}
+
+.icon-bar a:hover {
+  background-color: #0FF;
+}
+
+.active {
+  background-color: #EEE;
+
 }

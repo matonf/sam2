@@ -1,7 +1,7 @@
 <?php
 /*
-Par Matthieu ONFRAY (http://www.onfray.info)
-Licence : CC by sa
+Par Matthieu ONFRAY
+
 */
 require_once("fonctions.php");
 
@@ -11,20 +11,12 @@ $conf_mamaison = charger_conf();
 //ACTION demandée par l'utilisateur
 if ($_GET)
 {
-	if (isset($_GET["vacances"]))
-	{
-		ecrire_log("a passé le mode vacances à " . $_GET["vacances"]);
-		activer_mode_vacances($_GET["vacances"]);
-		//force le recalcul immédiat de la crontab
-		require("cron.php");
-	}
-
-	if (isset($conf_mamaison[$_GET["item"]])) activer_item_radio($_GET["item"], $_GET['etat']);
-
+	//vibration simple 1s
+	//echo "<script>	navigator.vibrate = navigator.vibrate ||                  navigator.webkitVibrate ||                  navigator.mozVibrate ||                   navigator.msVibrate;navigator.vibrate;                  navigator.vibrate(1000);	</script>";
+	if (isset($conf_mamaison[$_GET["item"]])) activer_item_radio($_GET['item'], $_GET['etat']);
 	//renvoie pour ne pas garder l'url avec les get en mémoire dans le navigateur
-	header("Location: /");
+	header("Location: index.php");
 	exit();
-
 }
 ?>
 <html>
@@ -33,46 +25,19 @@ if ($_GET)
 <meta name="viewport" content="width=device-width">
 <title>SAM pilote ma maison</title>
 <link rel="stylesheet" href="sam.css" type="text/css" />
-
-<!-- définit la fonction pour le mode vacances -->
-<script language="javascript">
-function mode_vacances()
-{
-	var vacances = 0;
-	if (document.getElementById("mode_vacances").checked) vacances = 1;
-	document.location.href = "?vacances=" + vacances;
-}
-</script>
 </head>
 <body>
+
+<!-- Add icon library : vertical bar-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="icon-bar">
+  <a class="active" href="/"><i class="fa fa-home"></i></a>
+  <a href="configurer.php"><i class="fa fa-clock-o"></i></a>
+  <a href="infos.php"><i class="fa fa-info"></i></a>
+</div> 
+<br>
 <?php
-//fixe les dates en FR
-setlocale (LC_TIME, 'fr_FR.utf8','fra'); 
-
-//récupère les cordonnées géographiques
-//récupération des coordonnées de la ville choisie dans la liste
-if ($conf_mamaison["ville_utilisateur"] != "Géolocalisée")
-{
-	$latitude = $villes[$conf_mamaison["ville_utilisateur"]][0];
-	$longitude = $villes[$conf_mamaison["ville_utilisateur"]][1];
-}
-else //géolocalisée
-{
-	$tab_c = explode(",", $conf_mamaison["coord_utilisateur"]);
-	$latitude = $tab_c[0];
-	$longitude = $tab_c[1];
-}
-
-//affiche quelques infos en home
-echo "Bienvenue !<br><br>\n<b>Informations</b><br>\n";
-echo "Nous sommes le " . strftime("%A %d %B") . ".<br>\n";
-$mois = date("m");
-$jour = date("d");
-
-echo "Le soleil se lève à " . lever_solaire($mois, $jour, $latitude, $longitude) . ".<br>\n";
-echo "Le soleil se couche à " . coucher_solaire($mois, $jour, $latitude, $longitude) . ".<br><br>\n";
-
-echo "<b>Mode interactif</b><br>";
 //parcours des items connus
 foreach($conf_mamaison as $var => $val)
 {
@@ -85,25 +50,10 @@ foreach($conf_mamaison as $var => $val)
 	echo ucfirst(item_desc($item_cur));
 	//état on/off parcourus
 	echo "<ul class=\"listeBouton\">";
-	foreach ($tab_actions = array("on", "off") as $tab_action)
-	{
-		$fonction_etat = "texte_" . $tab_action;
-		echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"?etat=" . $tab_action . "&item=" . $var . "\" title=\"" . $fonction_etat(item_desc($item_cur), "fr") . "\"><button class=\"" . $tab_action . "\">" . $fonction_etat(item_desc($item_cur), "fr") . "</button></a>";
-	}
+	foreach ($tab_actions = array("on", "off") as $action) echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"?etat=" . $action . "&item=" . $var . "\" title=\"" . texte($action, item_desc($item_cur), "fr") . "\"><button class=\"" . $action . "\">" . texte($action, item_desc($item_cur), "fr") . "</button></a>";
 	echo "</ul><br>\n";
 } 
 ?>
 
-<br><a href="configurer.php">Configurer</a><br><br>
-<div class="floating-box">Mode absence&nbsp;&nbsp;</div> 
-<div class="floating-box">
-	<div class="onoffswitch">
-        <input onclick="setTimeout(mode_vacances, 1000)" type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="mode_vacances" <?php if (est_en_mode_vacances()) echo "checked"; ?>>
-        <label class="onoffswitch-label" for="mode_vacances">
-            <span class="onoffswitch-inner"></span>
-            <span class="onoffswitch-switch"></span>
-        </label>
-  	</div>
-</div>
   </body>
 </html>

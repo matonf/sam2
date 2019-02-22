@@ -1,8 +1,7 @@
 <?php
 /*
-Par Matthieu ONFRAY (http://www.onfray.info)
-Licence : CC by sa
-Toutes question sur le blog ou par mail, possibilité de m'envoyer des bières via le blog
+Par Matthieu ONFRAY 
+
 */
 
 require_once("constantes.php");
@@ -61,9 +60,8 @@ if (! is_null(GOOGLE_public_siteKey))
 ?>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>SAM m'identifie</title>
-<head>
-<meta name="viewport" content="width=device-width"/>
-<body bgcolor="#f9f9f9">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+<head><body bgcolor="#f9f9f9">
 <form method=post action="?">
 Utilisateur :<br><input type=text name=playerlogin><br>Mot de passe :<br>
 <input type=password name=playerpass>

@@ -1,7 +1,7 @@
 <?php 
 /*
-Par Matthieu ONFRAY (http://www.onfray.info)
-Licence : CC by sa
+Par Matthieu ONFRAY
+
 */
 
 require_once("fonctions.php");
@@ -104,8 +104,6 @@ if (! est_en_mode_vacances())
 				if (isset($actions_cron[$ret_cron])) $actions_cron[$ret_cron] = $actions_cron[$ret_cron] . ' ' . $item . '/' . $tab_action;
 				else $actions_cron[$ret_cron] = $item . '/' . $tab_action;
 		}
-
-
 	} 
 	//stocke le parcours du tableau dans une chaîne de caractères
 	foreach ($actions_cron as $horaire => $ordre) $ligne_cron .= "$horaire * * * php " . CHEMIN . "activer.php $ordre #cronSAM " . VERSION . PHP_EOL;

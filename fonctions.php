@@ -1,7 +1,6 @@
 <?php
 /*
-Par Matthieu ONFRAY (http://www.onfray.info)
-Licence : CC by sa
+Par Matthieu ONFRAY 
 */
 
 //SECURITE 
@@ -14,11 +13,11 @@ foreach ($_REQUEST as $key => $val)
 
 //on charge des constantes
 require_once("constantes.php");
+require_once("id.php");
 
 //si la sécurisation par login a été demandée (et qu'on a pas lancé via un script)
 if (SECURISER == true && in_array(basename($_SERVER['PHP_SELF']), $NOLOGIN) == false)
 {
-	require_once("id.php");
 	$autorise = false;
 	//a-t-on le droit d'entrer ici ?
 	for ($i=0; $i<count($utilisateurs); $i++) 
@@ -56,13 +55,13 @@ function est_en_mode_vacances()
 //active ou désactive le mode vacances
 function activer_mode_vacances($activer=true)
 {
-		if ($activer) 
-		{
-			//on crée un fichier vide
-			$f = @fopen(CHEMIN . FIC_VACANCES, "w");
-			@fclose($f);
-		}
-		else @unlink(CHEMIN . FIC_VACANCES);
+	if ($activer) 
+	{
+		//on crée un fichier vide
+		$f = @fopen(CHEMIN . FIC_VACANCES, "w");
+		@fclose($f);
+	}
+	else @unlink(CHEMIN . FIC_VACANCES);
 }
 
 //log les événements
@@ -70,14 +69,14 @@ function ecrire_log($texte)
 {
 	if (LOG === false) return false;
 	//écriture de la conf personnelle
-	$pointeur_log = @fopen(CHEMIN . HISTO, "a");
+	$pointeur_log = @fopen(CHEMIN . FIC_HISTO, "a");
 	if ($pointeur_log)
 	{
 		if (isset($_COOKIE["cookie_sam" . VERSION . "_id"])) $utilisateur = $_COOKIE[COOKIE_ID];
 		else $utilisateur = "le système";
-		fwrite($pointeur_log, "Le " . date("d/m/Y à H:i:s") . ", " . $utilisateur . " " . $texte . PHP_EOL);
-		fclose($pointeur_log);
-	} else echo "ne peut ouvrir en lecture: " . CHEMIN . HISTO . "<br>";
+		@fwrite($pointeur_log, "Le " . date("d/m/Y à H:i:s") . ", " . $utilisateur . " " . $texte . PHP_EOL);
+		@fclose($pointeur_log);
+	} else echo "ne peut ouvrir en lecture: " . CHEMIN . FIC_HISTO . "<br>";
 }
 
 //sélectionner un élement dans une liste déroulante
@@ -128,6 +127,14 @@ function creer_liste_jours($nom, $val_utilisateur)
 function activer_item_radio($item, $etat)
 {
 	global $conf_mamaison;
+	//dépose un fichier marqueur
+	if ($etat == "on") 
+	{
+		//on crée un fichier vide
+		$f = @fopen(CHEMIN_SWITCH . $item, "w");
+		@fclose($f);
+	}
+	else @unlink(CHEMIN_SWITCH . $item);
 	//récupère l'élément concerné par l'action
 	$items = item_expl(item_items($conf_mamaison[$item]), " ");
 	//activation des objets en mode manuel : "on" pour les ouvrir et "off" pour les fermer
@@ -142,15 +149,55 @@ function activer_module_radio($objet, $etat)
 	{
 		ecrire_log("a tenté de passer l'objet $objet à un état incorrect : $etat");
 		return ;
+	}	
+
+	//prépare la commande radio arduino
+	if (is_null(Pi_PIN)) 
+	{
+		//sur 2 caractères, l'état de l'objet
+		if ($etat == "on") $etat_dec = "01";
+		else $etat_dec = "00";
+		//sur 4 caractères le numéro d'objet
+		$objet_dec = sprintf("%'.04d", decbin($objet));
+		//envoi en décimal (émetteur + état + objet) suivi d'un code fin de ligne
+		$commande = bindec(decbin(SENDER) . $etat_dec . $objet_dec) . "\n";
+		echo $commande;
+		//DTR=off : éviter le reset à chaque envoi
+		exec("mode " . Arduino_COM . ": BAUD=9600 PARITY=N data=8 stop=1 xon=off dtr=off");
+		$fp = fopen(Arduino_COM, "w");
+		//envoi du signal
+		fwrite($fp, $commande);
+		sleep(1);
+		$content = fgets($fp, 2096);
+		//gestion des retours
+		echo "Return = $content\n";
+		fclose($fp);
 	}
-	//prépare la commande radio
-	$commande = CHEMIN . 'radioEmission ' . PIN . ' ' . SENDER . ' ' . $objet . ' ' . $etat;
-	//on lance la commande radio
-	system($commande);
-	//attente entre les deux envois
- 	usleep(3000);
-	//rejoue la commande pour augmenter les chances
-	system($commande);
+	else 
+	{		
+		//allumage de la LED
+		if (! is_null(Pi_LED))
+		{
+			//passe le pin en sortie 
+			exec('gpio -g mode ' . Pi_LED . ' out');
+			//allume la LED
+			exec('gpio -g write ' . Pi_LED . ' 1');
+		}
+		
+		$commande = CHEMIN . 'radioEmission ' . Pi_PIN . ' ' . SENDER . ' ' . $objet . ' ' . $etat;
+		//rejoue la commande pour augmenter les chances
+		for ($i=0; $i<3; $i++)
+		{
+			//on lance la commande radio
+			system($commande);
+			//attente entre les deux envois
+			usleep(100);
+		}
+		
+		//extinction de la LED
+		if (! is_null(Pi_LED)) exec('gpio -g write ' . Pi_LED . ' 0');
+
+	}
 	ecrire_log("a passé l'objet $objet à $etat");
 }
 
@@ -194,26 +241,17 @@ function item_jours($texte)
 }
 
 //des libellés dynamiques en fonction des noms de groupes
-function texte_on($texte, $lang="fr")
-{
-	$volets = [ "en" => "open" , "fr" => "ouvrir" ];
-	$lampes = [ "en" => "light on", "fr" => "allumer" ];
-	//ouverture
-	if (stripos($texte, "volet") !== false || stripos($texte, "store") !== false) return $volets[$lang];
-	//allumage
-	if (stripos($texte, "lampe") !== false) return $lampes[$lang];
-	return "on";
-}
 
-function texte_off($texte, $lang="fr")
+function texte($etat, $texte, $lang="fr")
 {
-	$volets = [ "en" => "close" , "fr" => "fermer" ];
-	$lampes = [ "en" => "light off" , "fr" => "éteindre" ];
-	//fermeture
-	if (stripos($texte, "volet") !== false || stripos($texte, "store") !== false) return $volets[$lang];
-	//extinction
-	if (stripos($texte, "lampe") !== false) return $lampes[$lang];
-	return "off";
+	$volets = [ "off" => [ "en" => "close" , "fr" => "fermer"], "on" => [ "en" => "open" , "fr" => "ouvrir" ] ];
+	$lampes = [ "off" => [ "en" => "light off" , "fr" => "éteindre" ], "on" => [ "en" => "light on", "fr" => "allumer" ] ];
+	//fermeture volet
+	if (stripos($texte, "volet") !== false || stripos($texte, "store") !== false) return $volets[$etat][$lang];
+	//extinction lampe
+	if (stripos($texte, "lampe") !== false) return $lampes[$etat][$lang];
+	//pas de libellé trouvé
+	return $etat;
 }
 
 //charge le fichier utilisateur et retourne un tableau associatif
@@ -236,4 +274,5 @@ function lever_solaire($mois, $jour, $latitude, $longitude)
 {
 	return date_sunrise(mktime(1,1,1, $mois, $jour) , SUNFUNCS_RET_STRING, $latitude, $longitude, 90, 1 + date("I"));
 }
+
 ?>
